@@ -1,25 +1,27 @@
 import pandas as pd
+# from repository import Load_New_Data
+from repository.Restaurants_Data import df as data
 
 # Sample DataFrame with timestamps
-data = {
-    "payment_id": [1, 2, 3, 4, 5],
-    "timestamp": [
-        "2024-02-14 12:45:30",
-        "2024-02-14 18:20:15",
-        "2024-02-15 09:10:05",
-        "2024-02-16 23:50:45",
-        "2024-02-17 07:30:00"
-    ],
-    "item_price": [
-        "200","200","200","200","200"
-    ],
-    "quantity":[
-        "2","2","2","2","2"
-    ],
-    "transaction_amount":[
-        "400","400","400","400","400"
-    ]
-}
+# data = {
+#     "payment_id": [1, 2, 3, 4, 5],
+#     "timestamp": [
+#         "2024-02-14 12:45:30",
+#         "2024-02-14 18:20:15",
+#         "2024-02-15 09:10:05",
+#         "2024-02-16 23:50:45",
+#         "2024-02-17 07:30:00"
+#     ],
+#     "item_price": [
+#         "200","200","200","200","200"
+#     ],
+#     "quantity":[
+#         "2","2","2","2","2"
+#     ],
+#     "transaction_amount":[
+#         "400","400","400","400","400"
+#     ]
+# }
 
 df = pd.DataFrame(data)
 

@@ -1,6 +1,6 @@
 import mysql.connector
 import pickle
-from db.Load_New_Data import new_data
+from repository.Load_New_Data import new_data
 
 if not new_data.empty:
     X_new = new_data[['hour_of_day', 'day_of_week', 'item_price', 'quantity']]

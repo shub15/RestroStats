@@ -11,4 +11,4 @@ df = pd.read_sql(query, engine)
 
 print(df.head())
 
-engine.close()
+# engine.close()

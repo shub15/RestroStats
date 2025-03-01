@@ -1,6 +1,7 @@
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-from db.Features import df
+from repository.Features import df
+from repository import Features
 import pickle
 
 X = df[['hour_of_day', 'day_of_week', 'item_price']]  # Features
