@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="../assets/LOGO 1 1024.jpg">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@40,400,0,0">
+    <link rel="stylesheet" href="../styles/default.css">
+    <link rel="stylesheet" href="../styles/newbill.css"> <!-- New CSS file for this page -->
+    <title>Generate New Bill - Restrostat</title>
+</head>
+<body class="dark-theme">
+    <div class="container">
+        <a href="./home.html"><img id="logo" src="../assets/LOGO 1 1024 dark.jpg" alt="Restrostat Logo"></a>
+        <div class="header-controls">
+            <button id="theme-btn" aria-label="Toggle theme">
+                <span class="material-symbols-outlined" id="mode-icon">light_mode</span>
+            </button>
+            <div class="account">
+                <button id="user-btn" aria-label="User account" onclick="toggleAccountDropdown()">
+                    <span class="material-symbols-outlined">account_circle</span>
+                    <div class="account-dropdown" id="accountDropdown">
+                        <a href="#account-info">
+                            <span class="material-symbols-outlined acc-info">info</span>
+                            Account Info
+                        </a>
+                        <a href="#logout">
+                            <span class="material-symbols-outlined logout">logout</span>
+                            Logout
+                        </a>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <button class="menu-toggle" id="menu-btn" aria-label="Open menu">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+
+    <nav class="vertical-menu" id="main-menu">
+        <img id="menu-logo" src="../assets/LOGO 1 1024 menu-dark.jpg" alt="Menu Logo">
+        <ul>
+            <li class="has-submenu">
+                <a href="#bill-system">Bill System</a>
+                <ul class="submenu">
+                    <li><a href="./newbill.html">Generate New Bill</a></li>
+                    <li><a href="./viewbill.html">View/Edit Bills</a></li>
+                    <li><a href="./paymenthistory.html">Payment History</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#inventory">Menu</a>
+                <ul class="submenu">
+                    <li><a>View Menu</a></li>
+                    <li><a href="../pages/view_menu.html">Update Menu</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="#reports">Reports & Analytics</a>
+            </li>
+            <li class="has-submenu">
+                <a href="#staff-manage">Staff Management</a>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="bill-container">
+        <h1>Generate New Bill</h1>
+        <form id="bill-form">
+            <div class="form-group">
+                <label for="date" >Date</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="date" >Date</label>
+                <input type="time" id="time" name="date" required>
+            </div>
+            <div id="auto-fill">
+                    <label><input type="checkbox" id="auto-fill" onclick="autoTickDateTime()">Auto-Fill Date & Time</label>
+            </div>
+            <div class="form-group">
+                <label for="customer-name">Customer Name</label>
+                <input type="text" id="customer-name" name="customer-name" required>
+            </div>
+            <div class="form-group">
+                <label for="table-number">Table Number</label>
+                <input type="number" id="table-number" name="table-number" required>
+            </div>
+            
+            <!-- Item Input Section -->
+            <div class="form-group">
+                <label for="item-description">Item Description</label>
+                <input type="text" id="item-description" name="item-description" placeholder="Enter item description">
+            </div>
+            <div class="form-group">
+                <label for="item-quantity">Quantity</label>
+                <input type="number" id="item-quantity" name="item-quantity" placeholder="Enter quantity" min="1">
+            </div>
+            <div class="form-group">
+                <label for="item-price">Unit Price</label>
+                <input type="number" id="item-price" name="item-price" placeholder="Enter unit price" min="0" step="0.01">
+            </div>
+            <button type="button" id="add-item-btn" class="submit-btn">Add Item</button>
+
+            <!-- Items Table -->
+            <table id="items-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Rows will be dynamically added here -->
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="total-label">Grand Total</td>
+                        <td id="grand-total">0.00</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+
+            <button type="submit" class="submit-btn">Generate Bill</button>
+        </form>
+    </main>
+
+    <script>
+        // Function to auto-fill the date input with the current date
+        
+    </script>
+    <script src="../utils/changetheme.js"></script>
+    <script src="../utils/hovermenu.js"></script>
+    <script src="../utils/newbill.js"></script> <!-- JavaScript for dynamic bill calculation -->
+</body>
+</html>

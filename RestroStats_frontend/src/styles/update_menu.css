@@ -1,0 +1,172 @@
+/* updatemenu.css */
+body.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+.light-theme {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.updatemenu-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--dark-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.light-theme .updatemenu-container {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.updatemenu-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--primary-accent);
+}
+
+.add-item-form {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: var(--light-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.dark-theme .add-item-form {
+    background-color: #3d3d3d;
+}
+
+.add-item-form h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: var(--primary-accent);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: inherit;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+.dark-theme .form-group input,
+.dark-theme .form-group select {
+    background-color: #3d3d3d;
+    border-color: #444;
+    color: var(--text-light);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    border-color: var(--primary-accent);
+    outline: none;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: var(--primary-accent);
+    color: var(--text-light);
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.submit-btn:hover {
+    background-color: #357abd;
+}
+
+#menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--light-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.dark-theme #menu-table {
+    background-color: #3d3d3d;
+    color: var(--text-light);
+}
+
+#menu-table th, #menu-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.dark-theme #menu-table th,
+.dark-theme #menu-table td {
+    border-bottom: 1px solid #444;
+}
+
+#menu-table th {
+    background-color: var(--primary-accent);
+    color: var(--text-light);
+}
+
+#menu-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme #menu-table tbody tr:hover {
+    background-color: #4d4d4d;
+}
+
+.editable-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+.dark-theme .editable-input {
+    background-color: #3d3d3d;
+    border-color: #444;
+    color: var(--text-light);
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-accent);
+    padding: 5px;
+    margin: 0 2px;
+    transition: var(--transition);
+}
+
+.action-btn:hover {
+    color: var(--secondary-accent);
+}
+
+.delete-btn:hover {
+    color: #ff6b6b;
+}
