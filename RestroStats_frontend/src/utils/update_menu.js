@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         menuTableBody.appendChild(newRow);
 
+
         addItemForm.reset();
 
         alert("New item added successfully!");

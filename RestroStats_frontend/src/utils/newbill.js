@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const billForm = document.getElementById("bill-form");
     const customerName = document.getElementById("customer-name");
     const tableNumber = document.getElementById("table-number");
+    const printBtn = document.querySelector(".print-btn");
 
     let grandTotal = 0;
 
@@ -27,20 +28,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const newRow = document.createElement("tr");
         newRow.innerHTML = `
-            <td>${description}</td>
-            <td>${quantity}</td>
-            <td>${price.toFixed(2)}</td>
-            <td>${total.toFixed(2)}</td>
-            <td><button class="remove-btn">Remove</button></td>
+            <tr id="itemRow$">
+                <td>${description}</td>
+                <td>${quantity}</td>
+                <td>${price.toFixed(2)}</td>
+                <td>${total.toFixed(2)}</td>
+                <td><button class="remove-btn">Remove</button></td>
+            </tr>
         `;
 
         itemsTableBody.appendChild(newRow);
         grandTotalCell.textContent = grandTotal.toFixed(2);
 
         // Disable Customer Name & Table Number Input
-        customerName.diabled = "true";
-        tableNumber.disabled = "true";
-       
+        customerName.disabled = true;
+        tableNumber.disabled = true;
+
         // Clear input fields
         itemDescription.value = "";
         itemQuantity.value = "";
@@ -93,24 +96,95 @@ document.addEventListener("DOMContentLoaded", function () {
         // Optionally, display a success message
         alert("Bill generated successfully!");
 
-        // Optionally, reset the form
-        billForm.reset();
-        itemsTableBody.innerHTML = ""; // Clear the table
-        grandTotalCell.textContent = "0.00"; // Reset grand total
+    });
+
+    // Function to generate printable bill
+    printBtn.addEventListener("click", function () {
+        const customerName = document.getElementById("customer-name").value;
+        const tableNumber = document.getElementById("table-number").value;
+        const date = document.getElementById("date").value;
+        const time = document.getElementById("time").value;
+        const items = [];
+
+        // Collect all items from the table
+        itemsTableBody.querySelectorAll("tr").forEach(row => {
+            const description = row.querySelector("td:nth-child(1)").textContent;
+            const quantity = row.querySelector("td:nth-child(2)").textContent;
+            const price = row.querySelector("td:nth-child(3)").textContent;
+            const total = row.querySelector("td:nth-child(4)").textContent;
+
+            items.push({
+                description,
+                quantity,
+                price,
+                total,
+            });
+        });
+        username = "Shree Nidhi"
+        address = "45, Gandhi Nagar Kolkata, West Bengal 700032 India"
+        GSTIN = "AB54XXXXXXXXXXX"
+        FssaiNo = "XXXXXX0000X0XX"
+        // Create a printable bill HTML
+        const printableBill = `
+            <style>
+                body { font-family: Arial, sans-serif; color: black; }
+                h1, h3 , h4 { text-align: center;  }
+                table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+                th, td { padding: 10px; border: 1px solid #ccc; text-align: left; }
+                th { background-color: #4a90e2; color: black; }
+                .total-label { font-weight: bold; }
+            </style>
+            <h1>${username}<h1>
+            <h3>${address}</h3>
+            <h3>${GSTIN}</h3>
+            <h4>${FssaiNo}</h4>
+            <p><strong>Customer Name:</strong> ${customerName}</p>
+            <p><strong>Table Number:</strong> ${tableNumber}</p>
+            <p><strong>Date:</strong> ${date}</p>
+            <p><strong>Time:</strong> ${time}</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${items.map(item => `
+                        <tr>
+                            <td>${item.description}</td>
+                            <td>${item.quantity}</td>
+                            <td>${item.price}</td>
+                            <td>${item.total}</td>
+                        </tr>
+                    `).join("")}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="total-label">Grand Total</td>
+                        <td>${grandTotalCell.textContent}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        `;
+
+        // Open a new window with the printable bill
+        const printWindow = window.open("", "_blank");
+        printWindow.document.write(printableBill);
+        printWindow.document.close();
+
+        // Print the bill
+        printWindow.print();
     });
 });
 
-// Example date string
-let dateString = "Thu Mar 06 2025 13:56:04 GMT+0530 (India Standard Time)";
-
-// Create a new Date object from the string
-let date = new Date(dateString);
-
-// Function to format the date and time to "yyyy-MM-dd HH:mm:ss"
-function autoTickDateTime() {
-    let currentDate = new Date();
-    let formattedDate = currentDate.toISOString().split('T')[0];
-    let formattedTime = currentDate.toTimeString().split(' ')[0].substring(0, 5);  
-    document.getElementById('date').value = formattedDate;
-    document.getElementById('time').value = formattedTime;
-}
+// Function to auto-fill date and time
+    function autoTickDateTime() {
+        let currentDate = new Date();
+        let formattedDate = currentDate.toISOString().split('T')[0];
+        let formattedTime = currentDate.toTimeString().split(' ')[0].substring(0, 5);
+        document.getElementById('date').value = formattedDate;
+        document.getElementById('time').value = formattedTime;
+    }

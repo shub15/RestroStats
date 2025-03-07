@@ -72,7 +72,7 @@
     outline: none;
 }
 
-.submit-btn {
+.submit-btn, .print-btn , .new-bill{
     width: 100%;
     padding: 10px;
     background-color: var(--primary-accent);
@@ -82,12 +82,18 @@
     font-size: 16px;
     cursor: pointer;
     transition: var(--transition);
+    text-align: center;
 }
 
-.submit-btn:hover {
+.submit-btn:hover ,.print-btn:hover {
     background-color: #357abd;
 }
-
+.print-btn , .new-bill{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:10px;
+}
 /* Table Styles */
 #items-table {
     width: 100%;
