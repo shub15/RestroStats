@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kurkle/color": "^0.3.4",
     "@tailwindcss/vite": "^4.0.6",
     "axios": "^1.7.9",
+    "chart.js": "^4.4.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.0.6"
