@@ -1,3 +1,5 @@
+
+
 const ctx1 = document.getElementById('sales-bar').getContext('2d');
         const myChart1 = new Chart(ctx1, {
         type: 'bar',

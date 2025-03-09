@@ -1,30 +1,27 @@
-const menuToggle = document.getElementById('menu-btn');
-const mainMenu = document.getElementById('main-menu');
-const submenus = document.querySelectorAll('.has-submenu');
-
-const toggleMenu = () => mainMenu.classList.toggle('active');
-const closeMenu = () => mainMenu.classList.remove('active');
-
-menuToggle.addEventListener('click', toggleMenu);
-
-submenus.forEach(item => {
-    item.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-            e.preventDefault();
-            item.querySelector('.submenu').classList.toggle('active');
-        }
+function toggleAccountDropdown() {
+    const dropdown = document.getElementById('accountDropdown');
+    dropdown.classList.toggle('show');
+    }
+    
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function(e) {
+    if (!e.target.closest('.account')) {
+        document.getElementById('accountDropdown').classList.remove('show');
+    }
     });
-});
 
-document.addEventListener('click', (e) => {
-    if (!mainMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-        closeMenu();
-    }
-});
 
-window.addEventListener('resize', () => {
-    if (window.innerWidth > 768) {
-        closeMenu();
-        document.querySelectorAll('.submenu').forEach(sub => sub.classList.remove('active'));
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
     }
-});
