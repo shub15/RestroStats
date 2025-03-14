@@ -13,12 +13,12 @@
 }
 
 /* Base Styles */
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     transition: var(--transition);
-}
+} */
 
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
@@ -105,6 +105,10 @@ body {
     border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
+}
+
+.menu-toggle span {
+    display: block;
 }
 
 #menu-logo {

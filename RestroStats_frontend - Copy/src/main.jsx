@@ -10,11 +10,9 @@ import Home from './components/Home.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 import NewBill from './components/NewBillPage.jsx';
 import PaymentHistory from './components/PaymentHistory.jsx';
+// import { UpdateMenu, ViewBill, ViewMenu } from './utils/Components.jsx';
 import Upload_Data from './components/Upload_Data.jsx';
 import ViewMenu_1 from './components/ViewMenu_1.jsx';
-import UpdateMenu from './components/UpdateMenu.jsx';
-import ViewBill from './components/ViewBill.jsx';
-import ViewMenu from './components/ViewMenu.jsx';
 
 const router = createBrowserRouter([
   {
@@ -36,7 +34,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/updatemenu",
-        element: <UpdateMenu />
+        // element: <UpdateMenu />
       },
       {
         path: "/upload",
@@ -44,11 +42,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/viewbill",
-        element: <ViewBill />
+        // element: <ViewBill />
       },
       {
         path: "/viewmenu",
-        element: <ViewMenu />
+        // element: <ViewMenu />
       },
       {
         path: "/view_menu",

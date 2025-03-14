@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 // import.meta.env.VITE_token
 
-export default function Upload() {
+export default function Upload_Data() {
   const [formData, setFormData] = useState({
     hour_of_day: "",
     day_of_week: "",
