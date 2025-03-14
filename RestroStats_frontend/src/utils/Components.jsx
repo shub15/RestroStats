@@ -169,46 +169,6 @@ const ChartComponent = ({ type = "bar", id = "sales-bar", data, options }) => {
     );
 };
 
-// 6️⃣ NewBill.jsx (Converted from newbill.js)
-const NewBill = () => {
-    const [grandTotal, setGrandTotal] = useState(0);
-    const [items, setItems] = useState([]);
-
-    const addItem = () => {
-        const description = document.getElementById("item-description").value;
-        const quantity = parseInt(document.getElementById("item-quantity").value);
-        const price = parseFloat(document.getElementById("item-price").value);
-
-        if (!description || isNaN(quantity) || isNaN(price)) return alert("Invalid Input");
-
-        const total = quantity * price;
-        setGrandTotal(grandTotal + total);
-        setItems([...items, { description, quantity, price, total }]);
-    };
-
-    return (
-        <div>
-            <input id="item-description" placeholder="Item" />
-            <input id="item-quantity" type="number" placeholder="Quantity" />
-            <input id="item-price" type="number" placeholder="Price" />
-            <button onClick={addItem}>Add Item</button>
-            <table>
-                <tbody>
-                    {items.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.description}</td>
-                            <td>{item.quantity}</td>
-                            <td>{item.price}</td>
-                            <td>{item.total}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <p>Grand Total: {grandTotal}</p>
-        </div>
-    );
-};
-
 // 7️⃣ UpdateMenu.jsx (Converted from update_menu.js)
 const UpdateMenu = () => {
     const [items, setItems] = useState([]);
@@ -238,4 +198,4 @@ const UpdateMenu = () => {
 };
 
 // Export all components
-export { ViewMenu, ViewBill, ChartComponent, NewBill, UpdateMenu };
+export { ViewMenu, ViewBill, ChartComponent, UpdateMenu };

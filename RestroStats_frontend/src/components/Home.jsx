@@ -20,15 +20,15 @@ export default function Home() {
 
             {/* Charts Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4 h-96`}>
+                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
                     <h2 className="text-lg font-semibold mb-4">Sales Breakdown</h2>
                     <ChartComponent id="sales-bar" type="bar" />
                 </div>
-                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4 h-96`}>
+                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
                     <h2 className="text-lg font-semibold mb-4">Sales Trends</h2>
                     <ChartComponent id="sales-line" type="line" />
                 </div>
-                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4 h-96`}>
+                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
                     <h2 className="text-lg font-semibold mb-4">Revenue Distribution</h2>
                     <ChartComponent id="sales-pie" type="pie" />
                 </div>
@@ -43,8 +43,8 @@ export default function Home() {
                     </button>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="w-full">
+                <div className="overflow-x-hidden">
+                    <table className="min-w-lvh">
                         <thead>
                             <tr className={`${darkTheme ? 'border-gray-700' : 'border-gray-200'} border-b`}>
                                 <th className="py-3 text-left font-medium">Date</th>

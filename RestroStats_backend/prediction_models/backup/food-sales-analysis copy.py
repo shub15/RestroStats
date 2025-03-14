@@ -1,4 +1,3 @@
-import pickle
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,16 +15,21 @@ df = pd.read_csv('sample_data.csv')
 
 # Data cleaning and preprocessing
 def clean_data(df):
+    # Make a copy of the dataframe
     df_clean = df.copy()
     
+    # Convert timestamp to datetime format and handle missing values
     df_clean['timestamp'] = pd.to_datetime(df_clean['timestamp'], format='%d-%m-%Y %H:%M', errors='coerce')
     
+    # Drop rows with missing timestamps for the time-based analysis
     df_time_analysis = df_clean.dropna(subset=['timestamp']).copy()
     
+    # Create additional time-related features
     df_time_analysis['day_of_week'] = df_time_analysis['timestamp'].dt.day_name()
     df_time_analysis['month'] = df_time_analysis['timestamp'].dt.month_name()
     df_time_analysis['hour'] = df_time_analysis['timestamp'].dt.hour
     
+    # Categorize time of day
     time_of_day_map = {
         8: 'Morning',
         14: 'Afternoon',
@@ -34,24 +38,33 @@ def clean_data(df):
     }
     df_time_analysis['time_of_day'] = df_time_analysis['hour'].map(time_of_day_map)
     
+    # For the complete dataset (including rows with missing timestamps)
+    # Fill missing transaction_type with the most common value
     df_clean['transaction_type'] = df_clean['transaction_type'].fillna(df_clean['transaction_type'].mode()[0])
     
     return df_clean, df_time_analysis
 
 # Perform data analysis
 def analyze_data(df_clean, df_time_analysis):
+    # Sales by day of week and time of day
     day_time_sales = df_time_analysis.groupby(['day_of_week', 'time_of_day'])['transaction_amount'].sum().unstack()
     
+    # Favorite menu items
     favorite_items = df_clean.groupby('item_name')['quantity'].sum().sort_values(ascending=False)
     
+    # Sales by day of week
     day_sales = df_time_analysis.groupby('day_of_week')['transaction_amount'].sum().sort_values(ascending=False)
     
+    # Sales by item type
     item_type_sales = df_clean.groupby('item_type')['transaction_amount'].sum()
     
+    # Monthly trend
     monthly_sales = df_time_analysis.groupby('month')['transaction_amount'].sum()
     
+    # Customer preference (Mr./Mrs.) by time of day
     customer_time_preference = df_time_analysis.groupby(['time_of_day', 'received_by']).size().unstack()
     
+    # Calculate profit (assuming 40% profit margin)
     df_clean['profit'] = df_clean['transaction_amount'] * 0.4
     
     return {
@@ -63,10 +76,12 @@ def analyze_data(df_clean, df_time_analysis):
         'customer_time_preference': customer_time_preference
     }
 
-# Prediction model
+# Build prediction model
 def build_prediction_model(df_time_analysis):
+    # Prepare the data for modeling
     model_df = df_time_analysis.copy()
     
+    # One-hot encode categorical features
     categorical_features = ['item_name', 'item_type', 'day_of_week', 'time_of_day', 'received_by']
     numerical_features = ['item_price']
     
@@ -84,13 +99,17 @@ def build_prediction_model(df_time_analysis):
         ('model', RandomForestRegressor(n_estimators=100, random_state=42))
     ])
     
+    # Define features and target
     X = model_df[categorical_features + numerical_features]
     y = model_df['transaction_amount']
     
+    # Split data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
     
+    # Train model
     model_pipeline.fit(X_train, y_train)
     
+    # Evaluate model
     y_pred = model_pipeline.predict(X_test)
     mse = mean_squared_error(y_test, y_pred)
     r2 = r2_score(y_test, y_pred)
@@ -98,15 +117,12 @@ def build_prediction_model(df_time_analysis):
     print(f"Model Evaluation:")
     print(f"Mean Squared Error: {mse:.2f}")
     print(f"R² Score: {r2:.2f}")
-
-    # Save model
-    with open("sales_model.pkl", "wb") as f:
-        pickle.dump(model_pipeline, f)
     
     return model_pipeline, categorical_features, numerical_features
 
 # Function to predict sales
 def predict_sales(model, item_name, item_type, day_of_week, time_of_day, received_by, item_price, cat_features, num_features):
+    # Create a DataFrame with the input data
     input_data = pd.DataFrame({
         'item_name': [item_name],
         'item_type': [item_type],
@@ -116,6 +132,7 @@ def predict_sales(model, item_name, item_type, day_of_week, time_of_day, receive
         'item_price': [item_price]
     })
     
+    # Make prediction
     predicted_sales = model.predict(input_data[cat_features + num_features])[0]
     predicted_profit = predicted_sales * 0.4
     
@@ -123,6 +140,7 @@ def predict_sales(model, item_name, item_type, day_of_week, time_of_day, receive
 
 # Visualize the results
 def visualize_results(analysis_results):
+    # Set up the matplotlib figure
     plt.figure(figsize=(15, 20))
     
     # 1. Sales by day of week and time of day
@@ -167,6 +185,7 @@ def visualize_results(analysis_results):
     plt.savefig('sales_analysis_results.png')
     plt.close()
 
+# Main function
 def main():
     print("Loading and cleaning data...")
     df_clean, df_time_analysis = clean_data(df)

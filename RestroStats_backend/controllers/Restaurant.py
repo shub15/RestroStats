@@ -35,7 +35,7 @@ def login():
 
 # Upload and clean payment data
 @app.route('/upload', methods=['POST'])
-@jwt_required()
+# @jwt_required()
 def upload_payments():
     restaurant_id = get_jwt_identity()
     if 'file' not in request.files:
@@ -65,7 +65,7 @@ def upload_payments():
 
 # Analyze sales trends
 @app.route('/sales', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_sales():
     restaurant_id = get_jwt_identity()
     # payments = Payment.query.filter_by(restaurant_id=restaurant_id).all()
@@ -80,7 +80,7 @@ def get_sales():
 
 # Identify peak hours
 @app.route('/peak-hours', methods=['GET'])
-@jwt_required()
+# @jwt_required()
 def get_peak_hours():
     restaurant_id = get_jwt_identity()
     # payments = Payment.query.filter_by(restaurant_id=restaurant_id).all()
