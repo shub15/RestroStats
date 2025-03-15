@@ -17,9 +17,11 @@ export const ThemeProvider = ({ children }) => {
         // Update localStorage and body class when theme changes
         if (darkTheme) {
             document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
             localStorage.setItem('theme', 'dark-theme');
         } else {
             document.body.classList.remove('dark-theme');
+            document.body.classList.add('light-theme');
             localStorage.removeItem('theme', 'dark-theme');
         }
     }, [darkTheme]);

@@ -16,3 +16,4 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 from controllers import Restaurant
+from prediction_models import Restaurant_Sales
