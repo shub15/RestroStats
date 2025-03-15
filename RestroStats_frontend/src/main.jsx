@@ -15,6 +15,7 @@ import ViewMenu_1 from './components/ViewMenu_1.jsx';
 import UpdateMenu from './components/UpdateMenu.jsx';
 import ViewBill from './components/ViewBill.jsx';
 import ViewMenu from './components/ViewMenu.jsx';
+import ChartSales from './components/ChartSales.jsx';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />
+      },
+      {
+        path: "/charts",
+        element: <ChartSales />
       },
       {
         path: "/newbill",

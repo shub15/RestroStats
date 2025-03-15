@@ -56,7 +56,11 @@ def load_data():
     
     # In a real app, you'd upload the file. For now, we'll use the hardcoded path
     try:
-        df = pd.read_csv('sample_data.csv')
+        if 'file' not in request.files:
+            return jsonify({'error': 'No file uploaded'}), 400
+    
+        file = request.files['file']
+        df = pd.read_csv(file)
         df_clean, df_time_analysis = clean_data(df)
         analysis_results = analyze_data(df_clean, df_time_analysis)
         

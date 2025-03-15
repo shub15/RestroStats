@@ -99,116 +99,31 @@ export default function Home() {
             </div>
 
             {/* Charts Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                {/* Favorite Items Chart */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
+                    <h2 className="text-lg font-semibold mb-4">Sales Breakdown</h2>
+                    <ChartComponent id="sales-bar" type="bar" />
+                </div>
+                <button className="btn" onClick={fetchAnalysisData} disabled={loading}>{loading ? 'Loading...' : 'Refresh'}</button>
                 {analysisData && (
                     <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
-                        <h2 className="text-lg font-semibold mb-4">Favorite Items</h2>
-                        <ChartComponent
-                            id="favorite-items-chart"
-                            type="bar"
-                            data={analysisData.favorite_items}
-                        />
+                        <h2 className="text-lg font-semibold mb-4">Sales Breakdown</h2>
+                        <ChartComponent id="sales-bar" type="bar" data={{ labels: analysisData.favorite_items.labels, datasets: [{ label: 'Quantity Sold', data: analysisData.favorite_items.values }] }} />
                     </div>
                 )}
-
-                {/* Daily Sales Chart */}
-                {analysisData && (
-                    <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
-                        <h2 className="text-lg font-semibold mb-4">Daily Sales</h2>
-                        <ChartComponent
-                            id="daily-sales-chart"
-                            type="bar"
-                            data={analysisData.day_sales}
-                        />
-                    </div>
-                )}
-
-                {/* Monthly Sales Trend */}
-                {analysisData && (
-                    <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
-                        <h2 className="text-lg font-semibold mb-4">Monthly Sales Trend</h2>
-                        <ChartComponent
-                            id="monthly-sales-chart"
-                            type="line"
-                            data={analysisData.monthly_sales}
-                        />
-                    </div>
-                )}
-
-                {/* Item Type Distribution */}
-                {analysisData && (
-                    <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
-                        <h2 className="text-lg font-semibold mb-4">Item Type Distribution</h2>
-                        <ChartComponent
-                            id="item-type-chart"
-                            type="pie"
-                            data={analysisData.item_type_sales}
-                        />
-                    </div>
-                )}
-
-                {/* Sales Heatmap */}
-                {/* {analysisData && (
-                    <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4 col-span-1 md:col-span-2`}>
-                        <h2 className="text-lg font-semibold mb-4">Sales by Day and Time</h2>
-                        <ChartComponent
-                            id="sales-heatmap"
-                            type="heatmap"
-                            data={analysisData.heatmap_data}
-                        />
-                    </div>
-                )} */}
-
-                {/* In your Home component where you're rendering charts */}
-                {analysisData && (
-                    <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4 col-span-1 md:col-span-2`}>
-                        <h2 className="text-lg font-semibold mb-4">Sales by Day and Time</h2>
-                        <div className="overflow-x-auto">
-                            <table className="w-full border-collapse">
-                                <thead>
-                                    <tr>
-                                        <th className="border p-2">Day/Time</th>
-                                        <th className="border p-2">Morning</th>
-                                        <th className="border p-2">Afternoon</th>
-                                        <th className="border p-2">Evening</th>
-                                        <th className="border p-2">Night</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map(day => (
-                                        <tr key={day}>
-                                            <td className="border p-2 font-medium">{day}</td>
-                                            {['Morning', 'Afternoon', 'Evening', 'Night'].map(time => {
-                                                const cell = analysisData.heatmap_data.find(item => item.day === day && item.time === time);
-                                                const value = cell ? cell.value : 0;
-
-                                                // Calculate color intensity based on value
-                                                const max = Math.max(...analysisData.heatmap_data.map(item => item.value));
-                                                const intensity = Math.floor((value / max) * 255);
-                                                const backgroundColor = `rgba(0, 0, ${intensity}, 0.7)`;
-
-                                                return (
-                                                    <td
-                                                        key={`${day}-${time}`}
-                                                        className="border p-2 text-center"
-                                                        style={{ backgroundColor }}
-                                                    >
-                                                        ₹{value.toLocaleString()}
-                                                    </td>
-                                                );
-                                            })}
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                )}
+                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
+                    <h2 className="text-lg font-semibold mb-4">Sales Trends</h2>
+                    <ChartComponent id="sales-line" type="line" />
+                </div>
+                <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-4`}>
+                    <h2 className="text-lg font-semibold mb-4">Revenue Distribution</h2>
+                    <ChartComponent id="sales-pie" type="pie" />
+                </div>
             </div>
 
+
             <div>
-                <form onSubmit={makePrediction} className={`p-4 mb-8 space-y-4 ${darkTheme ? 'bg-gray-800' : 'bg-white'} shadow-md rounded-md`}>
+                <form onSubmit={makePrediction} className="p-4 space-y-4 bg-white shadow-md rounded-md">
                     <select name="item_name" onChange={handleInputChange} required>
                         <option value="">Select Item</option>
                         {options?.items?.map((item) => (
