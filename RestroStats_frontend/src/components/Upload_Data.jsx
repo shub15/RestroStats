@@ -61,10 +61,10 @@ export default function Upload_Data() {
       const formData = new FormData();
       formData.append("file", file);
       
-      await axios.post("http://localhost:5000/api/load-data", formData, {
+      await axios.post("http://127.0.0.1:5000/api/load-data", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
       });
       
@@ -89,7 +89,7 @@ export default function Upload_Data() {
     
     <div className="p-6">
       {/* Prediction Section */}
-      <div className={`${darkTheme ? "bg-gray-700" : "bg-gray-50"} p-4 rounded-lg mb-6`}>
+      {/* <div className={`${darkTheme ? "bg-gray-700" : "bg-gray-50"} p-4 rounded-lg mb-6`}>
         <h2 className={`text-lg font-medium ${darkTheme ? "text-white" : "text-gray-900"} mb-4`}>Make a Prediction</h2>
         <div className="space-y-4">
           {Object.keys(formData).map((key) => (
@@ -124,7 +124,7 @@ export default function Upload_Data() {
             </div>
           )}
         </div>
-      </div>
+      </div> */}
       
       {/* File Upload Section */}
       <div className={`${darkTheme ? "bg-gray-700" : "bg-gray-50"} p-4 rounded-lg`}>

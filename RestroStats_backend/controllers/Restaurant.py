@@ -106,3 +106,24 @@ def predict():
 
     prediction = model.predict(X_input)
     return jsonify({'predicted_sales': prediction[0]})
+
+@app.route('/transactions', methods=['GET'])
+def transactions():
+    # payments = Payment.query.all()
+    payments = Payment.query.order_by(Payment.timestamp.desc()).limit(5).all()
+    
+    # Convert SQLAlchemy objects to dictionaries
+    payment_list = []
+    for payment in payments:
+        payment_dict = {
+            'order_id': payment.order_id,
+            'timestamp'	: payment.timestamp,
+            'item_name'	: payment.item_name,
+            'item_price': payment.item_price,
+            'quantity'	: payment.quantity,
+            'transaction_amount': payment.transaction_amount,
+            'transaction_type': payment.transaction_type,
+        }
+        payment_list.append(payment_dict)
+    
+    return jsonify(payment_list)

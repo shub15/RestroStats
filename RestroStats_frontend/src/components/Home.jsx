@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ChartComponent from "./ChartComponent.jsx";
 import { useTheme } from './ThemeProvider.jsx';
 import axios from 'axios';
+import TransactionDisplay from './TransactionDisplay.jsx';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -85,6 +86,7 @@ export default function Home() {
 
     console.log(predictionData)
     console.log(options)
+    console.log(analysisData)
     return (
         <div className={`p-6 ${darkTheme ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'}`}>
             {/* Dashboard Header */}
@@ -269,7 +271,7 @@ export default function Home() {
             </div>
 
             {/* Transaction History */}
-            <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-6`}>
+            {/* <div className={`rounded-xl shadow-lg overflow-hidden ${darkTheme ? 'bg-gray-800' : 'bg-white'} p-6`}>
                 <div className="flex justify-between items-center mb-4">
                     <h2 className="text-xl font-semibold">Transaction History</h2>
                     <button className={`px-3 py-1 text-sm rounded-lg ${darkTheme ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white transition-colors`}>
@@ -315,7 +317,9 @@ export default function Home() {
                         </tbody>
                     </table>
                 </div>
-            </div>
+            </div> */}
+
+            <TransactionDisplay />
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../styles/home.css';
 import '../styles/default.css';
 import logo from '../assets/LOGO 1 1024 light.jpg';
@@ -11,10 +11,39 @@ import { useTheme } from './ThemeProvider.jsx';
 
 export default function Navbar() {
     // Function to toggle the menu
+     const menuButtonRef = useRef(null);
+  
+  useEffect(() => {
     const toggleMenu = () => {
-        const menu = document.getElementById('main-menu');
-        menu.classList.toggle('active');
+      const menu = document.getElementById('main-menu');
+      menu.classList.toggle('active');
     };
+    
+    // Function to handle clicks outside
+    const handleClickOutside = (event) => {
+      const menu = document.getElementById('main-menu');
+      const menuButton = menuButtonRef.current;
+      
+      // If menu is active and click is outside menu and button
+      if (
+        menu && 
+        menu.classList.contains('active') && 
+        !menu.contains(event.target) && 
+        menuButton && 
+        !menuButton.contains(event.target)
+      ) {
+        menu.classList.remove('active');
+      }
+    };
+    
+    // Add event listener to document
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    // Clean up the event listener
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
     const {darkTheme, toggleTheme} = useTheme()
     const [toggleAccountDropdown, setToggleAccountDropdown] = useState(false)
@@ -53,7 +82,10 @@ export default function Navbar() {
                 </div>
             </div>
 
-            <button className="menu-toggle" id="menu-btn" aria-label="Open menu" onClick={toggleMenu}>
+            <button className="menu-toggle" id="menu-btn" ref={menuButtonRef} aria-label="Open menu" onClick={() => {
+          const menu = document.getElementById('main-menu');
+          menu.classList.toggle('active');
+        }}>
                 <span className="material-symbols-outlined">menu</span>
             </button>
             <nav className="vertical-menu" id="main-menu">

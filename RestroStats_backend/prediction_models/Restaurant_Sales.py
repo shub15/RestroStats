@@ -15,7 +15,9 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, r2_score
-from app import app
+from app import app, db
+
+from entities.Payment import Payment
 
 # app = Flask(__name__)
 CORS(app)
@@ -61,12 +63,28 @@ def load_data():
     
         file = request.files['file']
         df = pd.read_csv(file)
+        df = df.dropna()
+        df['timestamp'] = pd.to_datetime(df['timestamp'], errors='coerce')
         df_clean, df_time_analysis = clean_data(df)
         analysis_results = analyze_data(df_clean, df_time_analysis)
         
         # Build prediction model if not already loaded
         if model_pipeline is None:
             model_pipeline, categorical_features, numerical_features = build_prediction_model(df_time_analysis)
+
+        for _, row in df_clean.iterrows():
+            payment = Payment(
+                # restaurant_id=restaurant_id,
+                order_id=row['order_id'],
+                timestamp=row['timestamp'],
+                item_name=row['item_name'],
+                item_price=row['item_price'],
+                quantity=row['quantity'],
+                transaction_amount=row['transaction_amount'],
+                transaction_type=row.get('transaction_type', None)
+            )
+            db.session.add(payment)
+        db.session.commit()
         
         return jsonify({
             "success": True,
