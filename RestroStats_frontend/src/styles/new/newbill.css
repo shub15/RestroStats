@@ -1,0 +1,231 @@
+/* newbill.css */
+
+.bill-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: var(--surface-dark);
+    
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.bill-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-control {
+    padding: 0.75rem 1rem;
+    background-color: var(--card-dark);
+    border: 1px solid var(--primary-color);
+    border-radius: 50px;
+    color: var(--text-light);
+    transition: all var(--transition-speed);
+}
+
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.form-check-input {
+    width: 1.2em;
+    height: 1.2em;
+    accent-color: var(--primary-color);
+}
+
+.item-input-section {
+    background-color: var(--card-dark);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    margin: 1.5rem 0;
+}
+
+.section-title {
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.bill-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-dark);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+/* Improved Table Styling */
+.bill-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--card-dark);
+    border-radius: calc(var(--border-radius) + 4px);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+}
+
+.bill-table thead {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
+
+.bill-table th {
+    padding: 1.2rem 1.5rem;
+    text-align: left;
+    font-weight: 600;
+    color: white;
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(5px);
+}
+
+.bill-table td {
+    padding: 1.2rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    transition: background-color 0.2s ease;
+}
+
+.bill-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+.bill-table tbody tr:hover td {
+    background-color: rgba(var(--primary-color), 0.1);
+}
+
+.bill-table tfoot td {
+    font-weight: 700;
+    background-color: var(--surface-dark);
+    font-size: 1.1rem;
+}
+
+.bill-table .action-cell {
+    text-align: center;
+}
+
+.delete-btn {
+    color: var(--accent-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background-color: rgba(var(--accent-color), 0.1);
+    transform: scale(1.1);
+}
+
+/* Enhanced Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+    justify-content: flex-end;
+}
+
+.btn-primary, .btn-success, 
+.btn-secondary, .btn-neutral {
+    width: fit-content;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 2px solid transparent;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #4f46e5);
+    color: white;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--secondary-color), #059669);
+    color: white;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--accent-color), #e11d48);
+    color: white;
+}
+
+.btn-neutral {
+    background: var(--surface-dark);
+    color: var(--text-light);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.btn-primary:hover, .btn-success:hover,
+.btn-secondary:hover, .btn-neutral:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0.95;
+}
+
+.btn-primary:active, .btn-success:active,
+.btn-secondary:active, .btn-neutral:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.material-symbols-outlined {
+    font-size: 1.4em;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .action-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .btn-primary, .btn-success,
+    .btn-secondary, .btn-neutral {
+        flex: 1 1 100%;
+        justify-content: center;
+    }
+}
+
+
+

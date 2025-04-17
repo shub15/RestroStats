@@ -1,0 +1,184 @@
+/* Update Menu Specific Styles */
+.updatemenu-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--primary-color);
+    text-align: center;
+}
+
+.card {
+    background: var(--surface-dark);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Styles */
+.grid-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.modern-input {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--card-dark);
+    border: 2px solid var(--background-dark);
+    border-radius: 8px;
+    color: var(--text-light);
+    transition: all var(--transition-speed);
+}
+
+.modern-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.modern-select {
+    appearance: none;
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--card-dark);
+    border: 2px solid var(--background-dark);
+    border-radius: 8px;
+    color: var(--text-light);
+}
+
+.price-input {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.price-input .currency {
+    position: absolute;
+    left: 10px;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.price-input input {
+    padding-left: 30px;
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+}
+
+.modern-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--card-dark);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.modern-table th {
+    background: var(--primary-color);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+}
+
+.modern-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--background-dark);
+}
+
+.editable-input {
+    background: transparent;
+    border: 2px solid transparent;
+    padding: 0.5rem;
+    color: var(--text-light);
+    transition: all var(--transition-speed);
+}
+
+.editable-input:focus {
+    background: var(--surface-dark);
+    border-color: var(--primary-color);
+}
+
+.category-pill {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.category-pill.Food {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--secondary-color);
+}
+
+.category-pill.Beverage {
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--primary-color);
+}
+button{
+    width: fit-content;
+}
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-btn {
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+}
+
+.save-btn {
+    color: var(--secondary-color);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.save-btn:hover {
+    background: rgba(16, 185, 129, 0.2);
+}
+
+.delete-btn {
+    color: var(--accent-color);
+    background: rgba(244, 63, 94, 0.1);
+}
+
+.delete-btn:hover {
+    background: rgba(244, 63, 94, 0.2);
+}
+
+.primary-action {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: transform 0.2s ease;
+}
+
+.primary-action:hover {
+    transform: translateY(-2px);
+    background: var(--primary-color);
+}

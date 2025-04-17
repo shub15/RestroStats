@@ -1,0 +1,28 @@
+.action-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    border-radius: 12px;
+    padding: 1rem;
+    background: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .action-card:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(135deg, #ffe5b4, #ffd580);
+  }
+  
+  .action-card:hover .material-symbols-outlined {
+    animation: bounceIcon 0.4s ease;
+  }
+  
+  @keyframes bounceIcon {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.2); }
+    60% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+  }
+  

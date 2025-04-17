@@ -166,6 +166,42 @@ def visualize_results(analysis_results):
     plt.tight_layout()
     plt.savefig('sales_analysis_results.png')
     plt.close()
+    
+df_clean, df_time_analysis = clean_data(df)
+analysis_results = analyze_data(df_clean, df_time_analysis)
+    
+def generate_insights(df_clean, df_time_analysis):
+    insights = []
+
+    # 1. Low-performing day
+    day_sales = df_time_analysis.groupby('day_of_week')['transaction_amount'].sum()
+    low_day = day_sales.idxmin()
+    low_day_amount = day_sales.min()
+    insights.append(f"📉 The lowest sales occur on {low_day}, totaling Rs. {low_day_amount:.2f}. You can consider giving staff a break or operating half-day.")
+
+    # 2. High-performing time slot
+    time_sales = df_time_analysis.groupby('time_of_day')['transaction_amount'].sum()
+    best_time = time_sales.idxmax()
+    best_time_amount = time_sales.max()
+    insights.append(f"🔥 Peak business happens in the {best_time}, with sales reaching Rs. {best_time_amount:.2f}. You can promote special combos during this time.")
+
+    # 3. Top-selling item
+    top_item = df_clean.groupby('item_name')['quantity'].sum().idxmax()
+    top_qty = df_clean.groupby('item_name')['quantity'].sum().max()
+    insights.append(f"🏆 The most popular item is {top_item}, sold {top_qty} times. Make sure it's always in stock!")
+
+    # 4. Underperforming item
+    bottom_item = df_clean.groupby('item_name')['quantity'].sum().idxmin()
+    bottom_qty = df_clean.groupby('item_name')['quantity'].sum().min()
+    if bottom_qty <= 2:
+        insights.append(f"❌ The item {bottom_item} sold only {bottom_qty} time(s). Consider removing it from the menu.")
+
+    # 5. Day-Time combination with low performance
+    combo_sales = df_time_analysis.groupby(['day_of_week', 'time_of_day'])['transaction_amount'].sum()
+    low_combo = combo_sales.idxmin()
+    insights.append(f"📉 On **{low_combo[0]} {low_combo[1]}**, sales are lowest. You might want to run offers to attract more customers.")
+
+    return insights, top_item
 
 def main():
     print("Loading and cleaning data...")
@@ -204,6 +240,10 @@ def main():
     
     print(f"Predicted sales for Vadapav on Monday evening: Rs. {predicted_sales:.2f}")
     print(f"Predicted profit: Rs. {predicted_profit:.2f}")
+    
+    print("\nGenerating business insights...")
+    generate_insights(analysis_results)
+
     
     # Interactive prediction
     def interactive_prediction():

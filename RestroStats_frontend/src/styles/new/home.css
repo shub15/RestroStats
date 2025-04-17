@@ -1,0 +1,158 @@
+.light-theme .chart-container,
+.light-theme .charts-container,
+.light-theme .tracking-history , 
+.light-theme table{
+    background-color: var(--light-bg);
+}
+
+.charts-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    background: var(--dark-bg);
+}
+
+.chart-container {
+    background: var(--dark-bg);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s ease;
+}
+
+.chart-container:hover {
+    transform: translateY(-5px);
+}
+
+/* Modern Table Design */
+.tracking-history {
+    padding: 2rem;
+    background: var(--dark-bg);
+    border-radius: 16px;
+    margin: 2rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.tracking-history h2 {
+    color: var(--primary-accent);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--dark-bg);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+th {
+    background: var(--primary-accent);
+    color: white;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+tr:hover {
+    background: rgba(255,255,255,0.03);
+}
+
+/* Modern Card Layout */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    padding: 2rem;
+}
+
+/* Quick Stats Cards */
+.quick-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    padding: 0 2rem;
+}
+
+.stat-card {
+    background: var(--dark-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-accent);
+    margin: 0.5rem 0;
+}
+
+.stat-label {
+    color: rgba(255,255,255,0.7);
+    font-size: 0.9rem;
+}
+
+/* Modern Navigation Enhancements */
+.vertical-menu {
+    backdrop-filter: blur(10px);
+    border-right: 1px solid rgba(255,255,255,0.1);
+}
+
+.has-submenu > a {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.has-submenu:hover > a {
+    background: rgba(255,255,255,0.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .charts-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .tracking-history {
+        margin: 1rem;
+        padding: 1rem;
+    }
+    
+    th, td {
+        padding: 0.75rem;
+    }
+    
+    .container {
+        padding: 1rem;
+    }
+    
+    #logo {
+        height: 60px;
+        width: 60px;
+    }
+}
+
+/* Glow Effects */
+.glow {
+    box-shadow: 0 0 20px rgba(74,144,226,0.2);
+}  

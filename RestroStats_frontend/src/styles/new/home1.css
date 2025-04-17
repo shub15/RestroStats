@@ -1,0 +1,232 @@
+main {
+    padding: 80px 30px 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    transition: margin-left 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.dashboard-card {
+    background-color: var(--card-dark);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-icon {
+    background-color: var(--primary-color);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-container {
+    height: 350px;
+    background-color: var(--card-dark);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.tracking-history {
+    background-color: var(--card-dark);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.tracking-history h2 {
+    margin-bottom: 20px;
+    position: relative;
+    display: inline-block;
+}
+
+.tracking-history h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60%;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 3px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+    background-color: rgba(0, 0, 0, 0.1);
+    font-weight: 500;
+}
+
+tr {
+    transition: background-color 0.2s;
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status.paid {
+    background-color: rgba(16, 185, 129, 0.2);  /* Using secondary-color */
+    color: #10b981;
+}
+
+.status.pending {
+    background-color: rgba(245, 158, 11, 0.2);  /* Amber */
+    color: #f59e0b;
+}
+
+.action-btn {
+    width: auto;
+    height: auto;
+    border-radius: 6px;
+    padding: 8px 15px;
+    font-weight: 500;
+    font-size: 0.85rem;
+    background-color: var(--primary-color);
+    color: white;
+    opacity: 0.9;
+}
+
+.action-btn:hover {
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.menu-active main {
+    margin-left: 280px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    main {
+        padding: 80px 15px 15px;
+    }
+
+    .menu-active main {
+        margin-left: 0;
+    }
+}
+
+/* Quick Stats */
+.stat-value {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 10px 0;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    color: rgba(241, 245, 249, 0.7);  /* Using text-light with opacity */
+    font-size: 0.9rem;
+}
+
+.stat-change {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.stat-change.positive {
+    color: #10b981;  /* Using secondary-color */
+}
+
+.stat-change.negative {
+    color: #f43f5e;  /* Using accent-color */
+}
+
+/* Adding animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Animated notification dot */
+.notification-dot {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Progress Bar */
+.progress-container {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(241, 245, 249, 0.1);  /* Using text-light with opacity */
+    border-radius: 3px;
+    margin-top: 15px;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 3px;
+    background-color: var(--primary-color);
+    width: 0%;
+    transition: width 1s ease;
+}

@@ -12,6 +12,8 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 from entities.Restaurant import Restaurant
 from entities.Payment import Payment
 
+from prediction_models.food_sales_analysis import generate_insights, analysis_results, df_clean, df_time_analysis
+
 CORS(app)
 # User registration
 @app.route('/register', methods=['POST'])
@@ -107,10 +109,10 @@ def predict():
     prediction = model.predict(X_input)
     return jsonify({'predicted_sales': prediction[0]})
 
-@app.route('/transactions', methods=['GET'])
-def transactions():
+@app.route('/transactions/<limit>', methods=['GET'])
+def transactions(limit):
     # payments = Payment.query.all()
-    payments = Payment.query.order_by(Payment.timestamp.desc()).limit(5).all()
+    payments = Payment.query.order_by(Payment.timestamp.desc()).limit(limit).all()
     
     # Convert SQLAlchemy objects to dictionaries
     payment_list = []
@@ -127,3 +129,34 @@ def transactions():
         payment_list.append(payment_dict)
     
     return jsonify(payment_list)
+
+@app.route('/transactions/all', methods=['GET'])
+def alltransactions():
+    # payments = Payment.query.all()
+    payments = Payment.query.order_by(Payment.timestamp.desc()).all()
+    
+    # Convert SQLAlchemy objects to dictionaries
+    payment_list = []
+    for payment in payments:
+        payment_dict = {
+            'order_id': payment.order_id,
+            'timestamp'	: payment.timestamp,
+            'item_name'	: payment.item_name,
+            'item_price': payment.item_price,
+            'quantity'	: payment.quantity,
+            'transaction_amount': payment.transaction_amount,
+            'transaction_type': payment.transaction_type,
+        }
+        payment_list.append(payment_dict)
+    
+    return jsonify(payment_list)
+
+@app.route('/popularitem', methods=['GET'])
+def popularitem():
+    insights_list, top_item = generate_insights(df_clean, df_time_analysis)
+    return jsonify({'popular_item': top_item})
+
+@app.route('/insights', methods=['GET'])
+def insights():
+    insights_list, top_item = generate_insights(df_clean, df_time_analysis)
+    return jsonify({'insights': insights_list})

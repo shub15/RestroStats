@@ -1,0 +1,270 @@
+body.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+.light-theme {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.reports-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.reports-container h1 {
+
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--primary-accent);
+    height:max-content
+}
+
+.chart-card {
+    background: var(--glass-bg);
+    
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.chart-card h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: var(--primary-accent);
+}
+
+canvas {
+    width: 100% !important;
+    height: 600px !important;
+}
+
+/* reports.css */
+/* ... previous styles ... */
+
+.chart-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    height: 500px; /* Fixed height for all chart containers */
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-card h2 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: var(--primary-accent);
+    flex-shrink: 0; /* Prevent title from shrinking */
+}
+
+.chart-controls {
+    flex-shrink: 0; /* Keep controls fixed in size */
+    margin-bottom: 15px;
+}
+
+.chart-controls button {
+    margin-right: 10px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid var(--primary-accent);
+    background: transparent;
+    color: var(--primary-accent);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-controls button:hover {
+    background: var(--primary-accent);
+    color: var(--text-light);
+}
+
+canvas {
+    width: 100% !important;
+    height: 75% !important; /* Fill remaining space in container */
+    /* Minimum height for smaller screens */
+}
+
+/* In reports.css */
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.chart-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Keep existing chart-card styles, but remove margin-bottom */
+.chart-card {
+    margin-bottom: 0; /* Now handled by grid gap */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-card {
+        height: 400px; /* Slightly shorter on mobile */
+    }
+}
+
+/* Enhanced Reports Page Styling */
+.reports-container {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.chart-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s ease;
+}
+
+.chart-card:hover {
+    transform: translateY(-5px);
+}
+
+.chart-card h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-accent);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.chart-controls button {
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--primary-accent);
+    background: transparent;
+    color: var(--primary-accent);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-controls button:hover {
+    background: var(--primary-accent);
+    color: var(--text-light);
+    box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+/* Chart Canvas Styling */
+canvas {
+    width: 100% !important;
+    height: 400px !important;
+}
+
+/* Full-width Chart */
+.full-width-chart {
+    grid-column: 1 / -1;
+}
+
+/* Theme Adjustments */
+.light-theme .chart-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .reports-container {
+        padding: 1rem;
+    }
+    
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chart-card {
+        height: auto;
+        padding: 1rem;
+    }
+    
+    canvas {
+        height: 300px !important;
+    }
+}
+
+/* Value Metrics */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background: var(--glass-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--primary-accent);
+    margin: 0.5rem 0;
+}
+
+.metric-label {
+    color: var(--text-light);
+    opacity: 0.8;
+}
+
+.light-theme .metric-label {
+    color: var(--text-dark);
+}

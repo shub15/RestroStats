@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from './ThemeProvider';
 
-const TransactionDisplay = () => {
+const TransactionDisplay = ({limit}) => {
   const {darkTheme, toggleTheme} = useTheme()
 
   // const [transactions, setTransactions] = useState([
@@ -56,7 +56,7 @@ const TransactionDisplay = () => {
     const fetchTransactions = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://127.0.0.1:5000/transactions');
+        const response = await fetch(`http://127.0.0.1:5000/transactions/${limit}`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -137,13 +137,13 @@ const TransactionDisplay = () => {
       </div>
     );
   }
-  console.log(transactions)
+  // console.log(transactions)
   return (
     <div className={`min-h-screen p-4 transition-colors duration-200 ${darkTheme ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-800'}`}>
       <div className="mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold">Transaction History</h1>
-          <button
+          {/* <button
             onClick={toggleDarkMode}
             className={`px-4 py-2 rounded-lg ${darkTheme
                 ? 'bg-gray-700 text-yellow-300 hover:bg-gray-600'
@@ -151,7 +151,7 @@ const TransactionDisplay = () => {
               }`}
           >
             {darkTheme ? '☀️ Light' : '🌙 Dark'}
-          </button>
+          </button> */}
         </div>
 
         {/* Filter and Sort Controls */}

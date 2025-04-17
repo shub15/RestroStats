@@ -1,0 +1,99 @@
+/* viewmenu.css */
+body.dark-theme {
+    background-color: var(--dark-bg);
+    color: var(--text-light);
+}
+
+.light-theme {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.viewmenu-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--dark-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+}
+
+.light-theme .viewmenu-container {
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+.viewmenu-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: var(--primary-accent);
+}
+
+.search-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-filter input,
+.search-filter select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: var(--border-radius);
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+.dark-theme .search-filter input,
+.dark-theme .search-filter select {
+    background-color: #3d3d3d;
+    border-color: #444;
+    color: var(--text-light);
+}
+
+.search-filter input:focus,
+.search-filter select:focus {
+    border-color: var(--primary-accent);
+    outline: none;
+}
+
+#menu-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--light-bg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.dark-theme #menu-table {
+    background-color: #3d3d3d;
+    color: var(--text-light);
+}
+
+#menu-table th, #menu-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.dark-theme #menu-table th,
+.dark-theme #menu-table td {
+    border-bottom: 1px solid #444;
+    color: var(--text-light);
+}
+
+#menu-table th {
+    background-color: var(--primary-accent);
+    color: var(--text-light);
+}
+
+#menu-table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme #menu-table tbody tr:hover {
+    background-color: #4d4d4d;
+}
