@@ -2,39 +2,28 @@
 
 ## Setup Instructions
 
-1. **Clone the repo**  
-   ```bash
-   git clone <your-repo-url>
-   cd <your-project-folder>
-Create virtual environment
+1. **Clone the repo**
 
-bash
-Copy
-Edit
-python -m venv venv
-Activate it
+   ```
+   git clone https://github.com/shub15/RestroStats/tree/main/RestroStats_backend
+   cd RestroStats_backend
+   ```
 
-On Windows:
+2. **Create virtual environment**
 
-bash
-Copy
-Edit
-.\venv\Scripts\activate
-On macOS/Linux:
+`python -m venv venv`
 
-bash
-Copy
-Edit
-source venv/bin/activate
-Install dependencies
+3. **Activate it**
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Run the code
+   1. On Windows:
+      `.\venv\Scripts\activate`
 
-bash
-Copy
-Edit
-python main.py
+   2. On macOS/Linux:
+      source venv/bin/activate
+
+4. **Install dependencies**
+
+`pip install -r requirements.txt`
+
+5. **Run the code**
+   `python main.py`
