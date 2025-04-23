@@ -4,8 +4,7 @@
 
 1. **Clone the repo**
 
-   ```
-   bash
+   ```bash
    git clone https://github.com/shub15/RestroStats/tree/main/RestroStats_backend
    cd RestroStats_backend
    ```
