@@ -9,55 +9,55 @@ import { Link } from 'react-router-dom';
 // import '../utils/changetheme.js';
 import { useTheme } from './ThemeProvider.jsx';
 
-export default function Navbar() {
+export default function VerticalNavbar() {
     // Function to toggle the menu
-     const menuButtonRef = useRef(null);
-  
-  useEffect(() => {
-    const toggleMenu = () => {
-      const menu = document.getElementById('main-menu');
-      menu.classList.toggle('active');
-    };
-    
-    // Function to handle clicks outside
-    const handleClickOutside = (event) => {
-      const menu = document.getElementById('main-menu');
-      const menuButton = menuButtonRef.current;
-      
-      // If menu is active and click is outside menu and button
-      if (
-        menu && 
-        menu.classList.contains('active') && 
-        !menu.contains(event.target) && 
-        menuButton && 
-        !menuButton.contains(event.target)
-      ) {
-        menu.classList.remove('active');
-      }
-    };
-    
-    // Add event listener to document
-    document.addEventListener('mousedown', handleClickOutside);
-    
-    // Clean up the event listener
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    const menuButtonRef = useRef(null);
 
-    const {darkTheme, toggleTheme} = useTheme()
+    useEffect(() => {
+        const toggleMenu = () => {
+            const menu = document.getElementById('main-menu');
+            menu.classList.toggle('active');
+        };
+
+        // Function to handle clicks outside
+        const handleClickOutside = (event) => {
+            const menu = document.getElementById('main-menu');
+            const menuButton = menuButtonRef.current;
+
+            // If menu is active and click is outside menu and button
+            if (
+                menu &&
+                menu.classList.contains('active') &&
+                !menu.contains(event.target) &&
+                menuButton &&
+                !menuButton.contains(event.target)
+            ) {
+                menu.classList.remove('active');
+            }
+        };
+
+        // Add event listener to document
+        document.addEventListener('mousedown', handleClickOutside);
+
+        // Clean up the event listener
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const { darkTheme, toggleTheme } = useTheme()
     const [toggleAccountDropdown, setToggleAccountDropdown] = useState(false)
 
     return (
         <>
-            <div className='container'>
-                <Link to="/">
-                    <img id="logo" src={darkTheme? darkLogo : logo} alt="Restrostat Logo" />
+            <div className='container h-24'>
+                <Link to="/dashboard">
+                    <img id="logo" src={darkTheme ? darkLogo : logo} alt="Restrostat Logo" />
                 </Link>
                 <div className="header-controls">
                     <button id="theme-btn" aria-label="Toggle theme" onClick={toggleTheme}>
                         <span className="material-symbols-outlined" id="mode-icon">
-                            {darkTheme ? `dark_mode`:'light_mode'}
+                            {darkTheme ? `dark_mode` : 'light_mode'}
                         </span>
                     </button>
                     <div className="account">
@@ -65,16 +65,21 @@ export default function Navbar() {
                             id="user-btn"
                             aria-label="User account"
                             onClick={() => setToggleAccountDropdown(!toggleAccountDropdown)}
+                            className='text-white'
                         >
                             <span className="material-symbols-outlined">account_circle</span>
                             <div className={toggleAccountDropdown ? `account-dropdown show` : `hidden`} id="accountDropdown">
-                                <Link to="#account-info">
-                                    <span className="material-symbols-outlined acc-info">info</span>
-                                    Account Info
+                                <Link to="#account-info" className={``}>
+                                    <div className={`${darkTheme ? `text-white` : `text-black`} flex gap-2`}>
+                                        <span className={`material-symbols-outlined acc-info`}>info</span>
+                                        Account Info
+                                    </div>
                                 </Link>
                                 <Link to="#logout">
-                                    <span className="material-symbols-outlined logout">logout</span>
-                                    Logout
+                                    <div className={`${darkTheme ? `text-white` : `text-black`} flex gap-2`}>
+                                        <span className="material-symbols-outlined logout">logout</span>
+                                        Logout
+                                    </div>
                                 </Link>
                             </div>
                         </button>
@@ -83,11 +88,12 @@ export default function Navbar() {
             </div>
 
             <button className="menu-toggle" id="menu-btn" ref={menuButtonRef} aria-label="Open menu" onClick={() => {
-          const menu = document.getElementById('main-menu');
-          menu.classList.toggle('active');
-        }}>
+                const menu = document.getElementById('main-menu');
+                menu.classList.toggle('active');
+            }}>
                 <span className="material-symbols-outlined">menu</span>
             </button>
+
             <nav className="vertical-menu" id="main-menu">
                 <img
                     id="menu-logo"
@@ -95,11 +101,12 @@ export default function Navbar() {
                     alt="Menu Logo"
                 />
                 <ul>
+                    <Link to='/' className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Home</Link>
                     <li>
-                        <Link to='/upload'>Upload Data</Link>
+                        <Link to='/upload' className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Upload Data</Link>
                     </li>
                     <li className="has-submenu">
-                        <a href="#bill-system">Bill System</a>
+                        <a href="#bill-system" className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Bill System</a>
                         <ul className="submenu">
                             <li>
                                 <Link to="/newbill">Generate New Bill</Link>
@@ -113,7 +120,7 @@ export default function Navbar() {
                         </ul>
                     </li>
                     <li className="has-submenu">
-                        <a href="#inventory">Menu</a>
+                        <a href="#inventory" className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Menu</a>
                         <ul className="submenu">
                             <li>
                                 <Link to="/view_menu">View Menu</Link>
@@ -124,10 +131,10 @@ export default function Navbar() {
                         </ul>
                     </li>
                     <li className="has-submenu">
-                        <Link to="#reports">Reports &amp; Analytics</Link>
+                        <Link to="#reports" className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Reports &amp; Analytics</Link>
                     </li>
                     <li className="has-submenu">
-                        <Link to="#staff-manage">Staff Management</Link>
+                        <Link to="#staff-manage" className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Staff Management</Link>
                     </li>
                 </ul>
             </nav>

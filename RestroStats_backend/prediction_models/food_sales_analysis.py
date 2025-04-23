@@ -10,9 +10,24 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import mean_squared_error, r2_score
+from app import app, db
+from entities.Payment import Payment
 
 # Load the data
-df = pd.read_csv('sample_data.csv')
+# df = pd.read_csv('sample_data.csv')
+with app.app_context():
+    # Now you're inside the application context
+    engine = db.engine
+
+    # Execute SQL query directly
+    df = pd.read_sql_query("SELECT * FROM payment", engine)
+    
+    print(df.head())
+    
+if df.empty :
+    df = pd.read_csv('sample_data.csv')
+else :
+    print("fetched")
 
 # Data cleaning and preprocessing
 def clean_data(df):
@@ -199,7 +214,7 @@ def generate_insights(df_clean, df_time_analysis):
     # 5. Day-Time combination with low performance
     combo_sales = df_time_analysis.groupby(['day_of_week', 'time_of_day'])['transaction_amount'].sum()
     low_combo = combo_sales.idxmin()
-    insights.append(f"📉 On **{low_combo[0]} {low_combo[1]}**, sales are lowest. You might want to run offers to attract more customers.")
+    insights.append(f"📉 On {low_combo[0]} {low_combo[1]}, sales are lowest. You might want to run offers to attract more customers.")
 
     return insights, top_item
 

@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
+  Outlet,
   RouterProvider,
 } from "react-router-dom";
 import './index.css'
@@ -16,6 +17,23 @@ import UpdateMenu from './components/UpdateMenu.jsx';
 import ViewBill from './components/ViewBill.jsx';
 import ViewMenu from './components/ViewMenu.jsx';
 import ChartSales from './components/ChartSales.jsx';
+import Login from './components/Login.jsx';
+import RestroStatLandingPage from './components/RestroStatLandingPage.jsx';
+import VerticalNavbar from './components/VerticalNavbar.jsx';
+import Sidebar from './components/Sidebar.jsx';
+import RestaurantRegistrationForm from './components/RestaurantRegistrationForm.jsx';
+import RestaurantDashboard from './components/RestaurantDashboard.jsx';
+import RestaurantLoginForm from './components/RestaurantLoginForm.jsx';
+
+// Layout component with Navbar
+const NavbarLayout = () => {
+  return (
+    <>
+      <VerticalNavbar />
+      <Outlet />
+    </>
+  );
+};
 
 const router = createBrowserRouter([
   {
@@ -25,39 +43,75 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <RestroStatLandingPage />
       },
       {
-        path: "/charts",
-        element: <ChartSales />
+        path: "/",
+        element: <NavbarLayout />,
+        children: [
+          {
+            path: "/dashboard",
+            element: <Home />
+          },
+          {
+            path: "/charts",
+            element: <ChartSales />
+          },
+          {
+            path: "/newbill",
+            element: <NewBill />
+          },
+          {
+            path: "/paymenthistory",
+            element: <PaymentHistory />
+          },
+          {
+            path: "/updatemenu",
+            element: <UpdateMenu />
+          },
+          {
+            path: "/upload",
+            element: <Upload_Data />
+          },
+          {
+            path: "/viewbill",
+            element: <ViewBill />
+          },
+          {
+            path: "/viewmenu",
+            element: <ViewMenu />
+          },
+          {
+            path: "/view_menu",
+            element: <ViewMenu_1 />
+          },
+        ]
+      },
+      // Pages WITHOUT navbar
+      {
+        path: "/login",
+        element: <Login />
       },
       {
-        path: "/newbill",
-        element: <NewBill />
+        path: "/sidebar",
+        element: <div className="flex">
+          <Sidebar />
+          <div className="flex-1 p-4">
+            <h1 className="text-2xl font-bold">YouTube-like Page</h1>
+          </div>
+        </div>
       },
       {
-        path: "/paymenthistory",
-        element: <PaymentHistory />
+        path: "/register",
+        element: <RestaurantRegistrationForm />
       },
       {
-        path: "/updatemenu",
-        element: <UpdateMenu />
+        path: "/maindashboard",
+        element: <RestaurantDashboard />
       },
       {
-        path: "/upload",
-        element: <Upload_Data />
-      },
-      {
-        path: "/viewbill",
-        element: <ViewBill />
-      },
-      {
-        path: "/viewmenu",
-        element: <ViewMenu />
-      },
-      {
-        path: "/view_menu",
-        element: <ViewMenu_1 />
+        path: "/mainlogin",
+        element: <RestaurantLoginForm />
       },
       // {
       //   path: "/admin/login",

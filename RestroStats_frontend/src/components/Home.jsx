@@ -89,7 +89,7 @@ export default function Home() {
                 <h1 className="text-3xl md:text-4xl font-bold mb-4 sm:mb-0 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">
                     Dashboard Overview
                 </h1>
-                <button
+                {/* <button
                     onClick={toggleTheme}
                     className={`px-6 py-3 rounded-full font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${
                         darkTheme ? 
@@ -112,7 +112,7 @@ export default function Home() {
                             Dark Mode
                         </span>
                     )}
-                </button>
+                </button> */}
             </div>
 
             {/* Key Insights Section */}
@@ -129,11 +129,11 @@ export default function Home() {
                     <ul className="space-y-3">
                         {insightsData.insights.map((point, index) => (
                             <li key={index} className="flex items-start gap-3">
-                                <span className="flex-shrink-0 w-6 h-6 rounded-full bg-white bg-opacity-20 flex items-center justify-center mt-0.5">
+                                {/* <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-900 bg-opacity-20 flex items-center justify-center mt-0.5">
                                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                     </svg>
-                                </span>
+                                </span> */}
                                 <span className="text-lg font-medium">{point}</span>
                             </li>
                         ))}
