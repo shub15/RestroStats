@@ -53,9 +53,11 @@ export default function RestroStatLandingPage() {
                             <a href="#benefits" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Benefits</a>
                             <a href="#testimonials" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Testimonials</a>
                             <a href="#pricing" className="block px-3 py-2 text-gray-700 hover:text-blue-600">Pricing</a>
-                            <button className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
-                                Get Started
-                            </button>
+                            <Link to='/login'>
+                                <button className="mt-2 w-full bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
+                                    Get Started
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 )}

@@ -9,6 +9,7 @@ from app import (
     create_access_token,
     get_jwt_identity,
     jwt_required,
+    render_template
 )
 
 import pandas as pd
@@ -25,6 +26,10 @@ from prediction_models.food_sales_analysis import (
 )
 
 CORS(app)
+
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
 
 # User registration
 @app.route("/register", methods=["POST"])
