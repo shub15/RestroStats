@@ -1,23 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../styles/home.css';
 import '../styles/default.css';
-import logo from '../assets/LOGO 1 1024 light.jpg';
-import darkLogo from '../assets/LOGO 1 1024 dark.jpg';
 import menuLogo from '../assets/LOGO 1 1024 light.jpg'
 import darkMenuLogo from '../assets/LOGO 1 1024 menu-dark.jpg'
 import { Link } from 'react-router-dom';
 // import '../utils/changetheme.js';
 import { useTheme } from './ThemeProvider.jsx';
+import DashboardNavbar from './HorizontalNavbar.jsx';
 
 export default function VerticalNavbar() {
     // Function to toggle the menu
     const menuButtonRef = useRef(null);
 
     useEffect(() => {
-        const toggleMenu = () => {
-            const menu = document.getElementById('main-menu');
-            menu.classList.toggle('active');
-        };
+       
 
         // Function to handle clicks outside
         const handleClickOutside = (event) => {
@@ -46,47 +42,10 @@ export default function VerticalNavbar() {
     }, []);
 
     const { darkTheme, toggleTheme } = useTheme()
-    const [toggleAccountDropdown, setToggleAccountDropdown] = useState(false)
 
     return (
         <>
-            <div className='container h-24'>
-                <Link to="/dashboard">
-                    <img id="logo" src={darkTheme ? darkLogo : logo} alt="Restrostat Logo" />
-                </Link>
-                <div className="header-controls">
-                    <button id="theme-btn" aria-label="Toggle theme" onClick={toggleTheme}>
-                        <span className="material-symbols-outlined" id="mode-icon">
-                            {darkTheme ? `dark_mode` : 'light_mode'}
-                        </span>
-                    </button>
-                    <div className="account">
-                        <button
-                            id="user-btn"
-                            aria-label="User account"
-                            onClick={() => setToggleAccountDropdown(!toggleAccountDropdown)}
-                            className='text-white'
-                        >
-                            <span className="material-symbols-outlined">account_circle</span>
-                            <div className={toggleAccountDropdown ? `account-dropdown show` : `hidden`} id="accountDropdown">
-                                <Link to="#account-info" className={``}>
-                                    <div className={`${darkTheme ? `text-white` : `text-black`} flex gap-2`}>
-                                        <span className={`material-symbols-outlined acc-info`}>info</span>
-                                        Account Info
-                                    </div>
-                                </Link>
-                                <Link to="#logout">
-                                    <div className={`${darkTheme ? `text-white` : `text-black`} flex gap-2`}>
-                                        <span className="material-symbols-outlined logout">logout</span>
-                                        Logout
-                                    </div>
-                                </Link>
-                            </div>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
+        <DashboardNavbar />
             <button className="menu-toggle" id="menu-btn" ref={menuButtonRef} aria-label="Open menu" onClick={() => {
                 const menu = document.getElementById('main-menu');
                 menu.classList.toggle('active');

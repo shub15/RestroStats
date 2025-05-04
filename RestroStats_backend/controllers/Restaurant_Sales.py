@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
+from flask_jwt_extended import get_jwt_identity, jwt_required
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -58,7 +59,9 @@ except:
 
 # Load the data
 @app.route("/api/load-data", methods=["POST"])
+@jwt_required()
 def load_data():
+    restaurant_id = get_jwt_identity()
     global model_pipeline, categorical_features, numerical_features
 
     try:
@@ -68,7 +71,7 @@ def load_data():
         file = request.files["file"]
         df = pd.read_csv(file)
         df = df.dropna()
-        df["timestamp"] = pd.to_datetime(df["timestamp"], errors="coerce")
+        df["timestamp"] = pd.to_datetime(df["timestamp"], dayfirst=True, errors="coerce")
         df_clean, df_time_analysis = clean_data(df)
         analysis_results = analyze_data(df_clean, df_time_analysis)
 
@@ -80,16 +83,16 @@ def load_data():
 
         for _, row in df_clean.iterrows():
             payment = Payment(
-                # restaurant_id=restaurant_id,
+                restaurant_id=restaurant_id,
                 order_id=row["order_id"],
                 timestamp=row["timestamp"],
                 item_name=row["item_name"],
-                item_type=row["item_type"],
+                # item_type=row["item_type"],
                 item_price=row["item_price"],
                 quantity=row["quantity"],
                 transaction_amount=row["transaction_amount"],
                 transaction_type=row.get("transaction_type", None),
-                received_by=row["received_by"],
+                # received_by=row["received_by"],
             )
             db.session.add(payment)
         db.session.commit()

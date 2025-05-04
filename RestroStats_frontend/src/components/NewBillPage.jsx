@@ -71,7 +71,7 @@ export default function NewBillPage() {
   };
 
   return (
-    <main className={`min-h-screen py-10 px-4 md:px-8 lg:px-12 transition-colors duration-300 ${
+    <div className={`min-h-screen py-10 px-4 md:px-8 lg:px-12 transition-colors duration-300 ${
       darkTheme 
         ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" 
         : "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 text-gray-900"
@@ -448,6 +448,6 @@ export default function NewBillPage() {
           </div>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

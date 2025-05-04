@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useTheme } from "./ThemeProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const { darkTheme } = useTheme();
@@ -38,7 +38,7 @@ export default function Login() {
       const token = response.data.access_token;
       console.log(token)
       localStorage.setItem("restaurantToken", token);
-      navigate("/maindashboard");
+      navigate("/upload");
       // You would typically redirect here or use a navigation function
       console.log("Login successful");
       
@@ -58,9 +58,9 @@ export default function Login() {
           </h2>
           <p className={`mt-2 text-center text-sm ${darkTheme ? "text-gray-400" : "text-gray-600"}`}>
             Don't have an account?{" "}
-            <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+            <Link to="/signup" className="font-medium text-blue-600 hover:text-blue-500">
               Sign up
-            </a>
+            </Link>
           </p>
         </div>
         

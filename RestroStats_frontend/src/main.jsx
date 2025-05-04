@@ -21,9 +21,10 @@ import Login from './components/Login.jsx';
 import RestroStatLandingPage from './components/RestroStatLandingPage.jsx';
 import VerticalNavbar from './components/VerticalNavbar.jsx';
 import Sidebar from './components/Sidebar.jsx';
-import RestaurantRegistrationForm from './components/RestaurantRegistrationForm.jsx';
 import RestaurantDashboard from './components/RestaurantDashboard.jsx';
 import RestaurantLoginForm from './components/RestaurantLoginForm.jsx';
+import Register from './components/Register.jsx';
+import AccountInfo from './components/AccountInfo.jsx';
 
 // Layout component with Navbar
 const NavbarLayout = () => {
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
             path: "/view_menu",
             element: <ViewMenu_1 />
           },
+          {
+            path: "/accountinfo",
+            element: <AccountInfo />
+          },
         ]
       },
       // Pages WITHOUT navbar
@@ -102,8 +107,8 @@ const router = createBrowserRouter([
         </div>
       },
       {
-        path: "/register",
-        element: <RestaurantRegistrationForm />
+        path: "/signup",
+        element: <Register />
       },
       {
         path: "/maindashboard",

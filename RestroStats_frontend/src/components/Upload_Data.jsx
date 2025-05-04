@@ -3,16 +3,15 @@ import axios from "axios";
 import { useTheme } from "./ThemeProvider";
 
 export default function Upload_Data() {
-  const {darkTheme, toggleTheme} = useTheme()
+  const { darkTheme } = useTheme();
   const [formData, setFormData] = useState({
-    item_name:"",
-    item_type:"",
+    item_name: "",
+    item_type: "",
     day_of_week: "",
-    time_of_day:"",
+    time_of_day: "",
     received_by: "",
     item_price: ""
   });
-  const [token, setToken] = useState("");
   const [file, setFile] = useState(null);
   const [loading, setLoading] = useState(false);
   const [predictionResult, setPredictionResult] = useState(null);
@@ -20,11 +19,11 @@ export default function Upload_Data() {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const inputRef = useRef(null);
-  
+
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -33,7 +32,6 @@ export default function Upload_Data() {
     }
   };
 
-  // Handle drag events
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -44,15 +42,13 @@ export default function Upload_Data() {
     }
   };
 
-  // Handle drop events
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const droppedFile = e.dataTransfer.files[0];
-      // Check if file is CSV
       if (droppedFile.type === "text/csv" || droppedFile.name.endsWith('.csv')) {
         setFile(droppedFile);
         setFileName(droppedFile.name);
@@ -62,52 +58,62 @@ export default function Upload_Data() {
     }
   };
 
-  // Trigger file input click
   const onButtonClick = () => {
     inputRef.current.click();
   };
-  
+
   const handlePrediction = async () => {
+    const token = localStorage.getItem("restaurantToken");
+    if (!token) return alert("No token found. Please log in again.");
+
     try {
       setLoading(true);
       setPredictionResult(null);
-      
+
       const response = await axios.post(
-        "http://localhost:5000/predict", 
+        "http://localhost:5000/predict",
         formData,
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
       );
-      
+
       setPredictionResult(response.data.prediction);
     } catch (error) {
       setPredictionResult("Error");
+      console.error("Prediction error:", error);
     } finally {
       setLoading(false);
     }
   };
-  
+
   const handleUpload = async () => {
     if (!file) return;
-    
+    const token = localStorage.getItem("restaurantToken");
+    if (!token) return alert("No token found. Please log in again.");
+
     try {
       setLoading(true);
       setUploadSuccess(false);
-      
-      const formData = new FormData();
-      formData.append("file", file);
-      
-      await axios.post("http://127.0.0.1:5000/api/load-data", formData, {
+
+      const uploadData = new FormData();
+      uploadData.append("file", file);
+
+      await axios.post("http://127.0.0.1:5000/api/load-data", uploadData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          // Authorization: `Bearer ${token}`,
-        },
+          Authorization: `Bearer ${token}`
+        }
       });
-      
+
       setUploadSuccess(true);
       setFileName("");
       setFile(null);
     } catch (error) {
       alert("Error uploading file");
+      console.error("Upload error:", error);
     } finally {
       setLoading(false);
     }

@@ -352,7 +352,7 @@ export default function RestroStatLandingPage() {
             </section>
 
             {/* Pricing Section */}
-            <section id="pricing" className="py-12 bg-gray-50">
+            {/* <section id="pricing" className="py-12 bg-gray-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="lg:text-center">
                         <h2 className="text-base text-blue-600 font-semibold tracking-wide uppercase">Pricing</h2>
@@ -503,7 +503,7 @@ export default function RestroStatLandingPage() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* CTA Section */}
             <section className="py-12 bg-blue-600">
@@ -511,7 +511,7 @@ export default function RestroStatLandingPage() {
                     <div className="lg:flex lg:items-center lg:justify-between">
                         <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
                             <span className="block">Ready to transform your restaurant?</span>
-                            <span className="block text-blue-200">Start your free 14-day trial today.</span>
+                            <span className="block text-blue-200">Start today.</span>
                         </h2>
                         <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
                             <div className="inline-flex rounded-md shadow">
@@ -585,7 +585,7 @@ export default function RestroStatLandingPage() {
                                 <li>
                                     <a href="tel:+15551234567" className="flex text-base text-gray-400 hover:text-white">
                                         <Phone className="h-5 w-5 mr-2" />
-                                        <span>+1 (555) 123-4567</span>
+                                        <span>+91 1234567 (555/554)</span>
                                     </a>
                                 </li>
                                 <li>
