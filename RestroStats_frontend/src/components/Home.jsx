@@ -71,13 +71,19 @@ export default function Home() {
     };
     
     const fetchInsightsData = async () => {
+        const token = localStorage.getItem('restaurantToken');
+        if (!token) return;
         try {
-            const response = await axios.get(`http://localhost:5000/insights`);
+            const response = await axios.get(`http://localhost:5000/insights`, {
+                headers: { Authorization: `Bearer ${token}` }
+              });
             setInsightsData(response.data);
         } catch (error) {
             setError(error.message);
         }
     };
+
+    console.log(insightsData);
 
     return (
         <div className={`min-h-screen p-6 md:p-8 lg:p-12 transition-colors duration-300 ${

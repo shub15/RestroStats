@@ -26,5 +26,8 @@ migrate = Migrate(app, db)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
+from entities.Restaurant import Restaurant
+from entities.Payment import Payment
+
 from controllers import Restaurant
 from controllers import Restaurant_Sales

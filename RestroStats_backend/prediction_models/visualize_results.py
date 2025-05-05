@@ -91,8 +91,8 @@ def interactive_prediction():
         if another.lower() == 'y':
             interactive_prediction()
     
-    run_interactive = input("\nWould you like to make predictions interactively? (y/n): ")
-    if run_interactive.lower() == 'y':
-        interactive_prediction()
-    
-    print("\nAnalysis complete! Check 'sales_analysis_results.png' for visualizations.")
+        run_interactive = input("\nWould you like to make predictions interactively? (y/n): ")
+        if run_interactive.lower() == 'y':
+            interactive_prediction()
+        
+        print("\nAnalysis complete! Check 'sales_analysis_results.png' for visualizations.")

@@ -87,12 +87,12 @@ def load_data():
                 order_id=row["order_id"],
                 timestamp=row["timestamp"],
                 item_name=row["item_name"],
-                # item_type=row["item_type"],
+                item_type=row["item_type"],
                 item_price=row["item_price"],
                 quantity=row["quantity"],
                 transaction_amount=row["transaction_amount"],
                 transaction_type=row.get("transaction_type", None),
-                # received_by=row["received_by"],
+                received_by=row["received_by"],
             )
             db.session.add(payment)
         db.session.commit()
@@ -250,7 +250,10 @@ def predict_sales(
 @app.route("/api/get-analysis", methods=["GET"])
 def get_analysis():
     try:
-        df = pd.read_csv("sample_data.csv")
+        with app.app_context():
+            engine = db.engine
+            df = pd.read_sql_query("SELECT * FROM payments", engine)
+            print(df.head())
         df_clean, df_time_analysis = clean_data(df)
         analysis_results = analyze_data(df_clean, df_time_analysis)
 

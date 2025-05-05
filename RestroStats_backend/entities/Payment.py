@@ -10,10 +10,12 @@ class Payment(db.Model):
     order_id = db.Column(db.String(50), nullable=False)
     timestamp = db.Column(db.DateTime, nullable=False)
     item_name = db.Column(db.String(100), nullable=False)
+    item_type = db.Column(db.String(255), nullable=False)
     item_price = db.Column(db.Float, nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     transaction_amount = db.Column(db.Float, nullable=False)
     transaction_type = db.Column(db.String(50), nullable=True)
+    received_by = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     # Relationship with restaurant
