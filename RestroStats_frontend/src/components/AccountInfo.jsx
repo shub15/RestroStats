@@ -58,10 +58,10 @@ export default function AccountInfo() {
   };
 
   return (
-    <div className={`min-h-screen w-screen flex flex-col ${darkTheme ? 'bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-tr from-indigo-50 via-white to-purple-50'}`}>
+    <div className={`min-h-screen w-full flex flex-col ${darkTheme ? 'bg-gradient-to-tr from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-tr from-indigo-50 via-white to-purple-50'}`}>
       
       {/* Top Nav Bar */}
-      <header className={`flex items-center justify-between px-10 py-4 border-b ${darkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'}`}>
+      {/* <header className={`flex items-center justify-between px-10 py-4 border-b ${darkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'}`}>
         <div className="flex items-center gap-4">
           <img src="/logo192.png" alt="Logo" className="h-10 w-10 rounded-full shadow-md" />
           <h1 className={`text-2xl font-bold ${darkTheme ? 'text-white' : 'text-gray-900'}`}>Restrostat Dashboard</h1>
@@ -69,12 +69,12 @@ export default function AccountInfo() {
         <div className={`text-sm font-semibold px-4 py-2 rounded-lg shadow-md ${darkTheme ? 'bg-gray-800 text-gray-300' : 'bg-gray-100 text-gray-700'}`}>
           {formData.name || 'Restaurant Name'}
         </div>
-      </header>
+      </header> */}
 
       {/* Main Content */}
       <main className="flex-1 flex overflow-hidden">
         {/* Sidebar Placeholder */}
-        <aside className={`w-72 flex-shrink-0 p-6 border-r ${darkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'}`}>
+        {/* <aside className={`w-72 flex-shrink-0 p-6 border-r ${darkTheme ? 'border-gray-700 bg-gray-900' : 'border-gray-200 bg-white'}`}>
           <div className="mb-8">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg flex items-center justify-center text-white text-4xl font-extrabold select-none">
               {formData.name ? formData.name.charAt(0).toUpperCase() : 'R'}
@@ -97,13 +97,12 @@ export default function AccountInfo() {
               </a>
             ))}
           </nav>
-        </aside>
+        </aside> */}
 
         {/* Account Info Form */}
         <section className={`
           flex-1 overflow-auto p-10
           ${darkTheme ? 'bg-gray-800' : 'bg-white'}
-          rounded-tr-3xl rounded-br-3xl shadow-2xl
           flex flex-col
         `}>
           <div className="flex justify-between items-center mb-12">
@@ -160,7 +159,7 @@ export default function AccountInfo() {
           )}
 
           {/* Form Fields */}
-          <form className="grid grid-cols-2 gap-x-12 gap-y-8 flex-grow overflow-auto">
+          <form className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 flex-grow overflow-auto">
             {[
               { label: 'Restaurant Name', name: 'name', type: 'text', icon: 'storefront' },
               { label: 'Email Address', name: 'email', type: 'email', icon: 'mail' },

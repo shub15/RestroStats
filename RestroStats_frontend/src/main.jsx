@@ -26,16 +26,17 @@ import RestaurantLoginForm from './components/RestaurantLoginForm.jsx';
 import Register from './components/Register.jsx';
 import AccountInfo from './components/AccountInfo.jsx';
 import PrintBill from './components/PrintBill.jsx';
+import DashboardLayout from './components/DashboardLayout.jsx';
 
 // Layout component with Navbar
-const NavbarLayout = () => {
-  return (
-    <>
-      <VerticalNavbar />
-      <Outlet />
-    </>
-  );
-};
+// const NavbarLayout = () => {
+//   return (
+//     <>
+//       <VerticalNavbar />
+//       <Outlet />
+//     </>
+//   );
+// };
 
 const router = createBrowserRouter([
   {
@@ -49,106 +50,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/",
-        element: <NavbarLayout />,
+        element: <DashboardLayout />, // <-- Use new layout here!
         children: [
-          {
-            path: "/dashboard",
-            element: <Home />
-          },
-          {
-            path: "/charts",
-            element: <ChartSales />
-          },
-          {
-            path: "/newbill",
-            element: <NewBill />
-          },
-          {
-            path: "/paymenthistory",
-            element: <PaymentHistory />
-          },
-          {
-            path: "/updatemenu",
-            element: <UpdateMenu />
-          },
-          {
-            path: "/upload",
-            element: <Upload_Data />
-          },
-          {
-            path: "/viewbill",
-            element: <ViewBill />
-          },
-          {
-            path: "/viewmenu",
-            element: <ViewMenu />
-          },
-          {
-            path: "/view_menu",
-            element: <ViewMenu_1 />
-          },
-          {
-            path: "/accountinfo",
-            element: <AccountInfo />
-          },
-          {
-            path: "/printbill",
-            element: <PrintBill />
-          },
+          { path: "/dashboard", element: <Home /> },
+          { path: "/charts", element: <ChartSales /> },
+          { path: "/newbill", element: <NewBill /> },
+          { path: "/paymenthistory", element: <PaymentHistory /> },
+          { path: "/updatemenu", element: <UpdateMenu /> },
+          { path: "/upload", element: <Upload_Data /> },
+          { path: "/viewbill", element: <ViewBill /> },
+          { path: "/viewmenu", element: <ViewMenu /> },
+          { path: "/view_menu", element: <ViewMenu_1 /> },
+          { path: "/accountinfo", element: <AccountInfo /> },
+          { path: "/printbill", element: <PrintBill /> },
         ]
       },
       // Pages WITHOUT navbar
-      {
-        path: "/login",
-        element: <Login />
-      },
-      {
-        path: "/sidebar",
-        element: <div className="flex">
-          <Sidebar />
-          <div className="flex-1 p-4">
-            <h1 className="text-2xl font-bold">YouTube-like Page</h1>
-          </div>
-        </div>
-      },
-      {
-        path: "/signup",
-        element: <Register />
-      },
-      {
-        path: "/maindashboard",
-        element: <RestaurantDashboard />
-      },
-      {
-        path: "/mainlogin",
-        element: <RestaurantLoginForm />
-      },
-      // {
-      //   path: "/admin/login",
-      //   element: <AdminLogin />
-      // },
-      // {
-      //   path: "/admin",
-      //   element: <PrivateRoute><Admin /></PrivateRoute>,
-      //   children: [
-      //     {
-      //       path: "",
-      //       element: <CollegeForm />
-      //     },
-      //     {
-      //       path: "edit",
-      //       element: <EditCollege />
-      //     },
-      //     {
-      //       path: "editform",
-      //       element: <EditCollegeForm />
-      //     },
-      //     {
-      //       path: "notifications",
-      //       element: <NotificationForm />
-      //     }
-      //   ]
-      // }
+      { path: "/login", element: <Login /> },
+      { path: "/sidebar", element: <div className="flex"><Sidebar /><div className="flex-1 p-4"><h1 className="text-2xl font-bold">YouTube-like Page</h1></div></div> },
+      { path: "/signup", element: <Register /> },
+      { path: "/maindashboard", element: <RestaurantDashboard /> },
+      { path: "/mainlogin", element: <RestaurantLoginForm /> },
     ]
   },
 ]);
