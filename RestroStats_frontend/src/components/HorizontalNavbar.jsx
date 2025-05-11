@@ -41,6 +41,12 @@ export default function HorizontalNavbar() {
         fetchRestaurantProfile();
     }, []);
 
+    const handleLogout = () => {
+        localStorage.removeItem('restaurantToken');
+        
+        navigate('/login');
+    };
+
     return (
         <div>
             <div className='container h-24'>
@@ -71,11 +77,11 @@ export default function HorizontalNavbar() {
                                         Account Info
                                     </div>
                                 </Link>
-                                <Link to="#logout">
-                                    <div className={`${darkTheme ? `text-white` : `text-black`} flex gap-2`}>
+                                <Link>
+                                    <button  onClick={handleLogout} className={`${darkTheme ? `text-white` : `text-black`} flex gap-2`}>
                                         <span className="material-symbols-outlined logout">logout</span>
                                         Logout
-                                    </div>
+                                    </button>
                                 </Link>
                             </div>
                         </button>

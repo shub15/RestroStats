@@ -18,6 +18,8 @@ from datetime import datetime, timedelta
 
 from entities.Restaurant import Restaurant
 from entities.Payment import Payment
+from entities.Bill import Bill
+from entities.BillItem import BillItem
 
 from prediction_models.food_sales_analysis import (
     generate_insights,
@@ -205,50 +207,15 @@ def upload_payments():
 @jwt_required()
 def get_sales():
     restaurant_id = get_jwt_identity()
-
-    # Optional date range filtering
-    start_date = request.args.get("start_date")
-    end_date = request.args.get("end_date")
-
-    query = Payment.query.filter_by(restaurant_id=restaurant_id)
-
-    # Apply date filters if provided
-    if start_date:
-        try:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d")
-            query = query.filter(Payment.timestamp >= start_date)
-        except ValueError:
-            return jsonify({"error": "Invalid start_date format. Use YYYY-MM-DD"}), 400
-
-    if end_date:
-        try:
-            end_date = datetime.strptime(end_date, "%Y-%m-%d")
-            # Make end_date inclusive by setting it to the end of the day
-            end_date = end_date.replace(hour=23, minute=59, second=59)
-            query = query.filter(Payment.timestamp <= end_date)
-        except ValueError:
-            return jsonify({"error": "Invalid end_date format. Use YYYY-MM-DD"}), 400
-
-    payments = query.all()
-
-    if not payments:
-        return jsonify({"message": "No payment data found for this restaurant"}), 404
-
+    payments = Payment.query.filter_by(restaurant_id=restaurant_id).all()
+    # payments = Payment.query.all()
     daily_sales = {}
+
     for payment in payments:
         date = payment.timestamp.date().strftime("%Y-%m-%d")
         daily_sales[date] = daily_sales.get(date, 0) + payment.transaction_amount
 
-    # Sort by date
-    sorted_sales = {k: daily_sales[k] for k in sorted(daily_sales.keys())}
-
-    return jsonify(
-        {
-            "daily_sales": sorted_sales,
-            "total_sales": sum(sorted_sales.values()),
-            "days_count": len(sorted_sales),
-        }
-    )
+    return jsonify(daily_sales)
 
 
 # Identify peak hours
@@ -256,115 +223,30 @@ def get_sales():
 @jwt_required()
 def get_peak_hours():
     restaurant_id = get_jwt_identity()
-
-    # Optional date range filtering
-    start_date = request.args.get("start_date")
-    end_date = request.args.get("end_date")
-
-    query = Payment.query.filter_by(restaurant_id=restaurant_id)
-
-    # Apply date filters if provided
-    if start_date:
-        try:
-            start_date = datetime.strptime(start_date, "%Y-%m-%d")
-            query = query.filter(Payment.timestamp >= start_date)
-        except ValueError:
-            return jsonify({"error": "Invalid start_date format. Use YYYY-MM-DD"}), 400
-
-    if end_date:
-        try:
-            end_date = datetime.strptime(end_date, "%Y-%m-%d")
-            # Make end_date inclusive by setting it to the end of the day
-            end_date = end_date.replace(hour=23, minute=59, second=59)
-            query = query.filter(Payment.timestamp <= end_date)
-        except ValueError:
-            return jsonify({"error": "Invalid end_date format. Use YYYY-MM-DD"}), 400
-
-    payments = query.all()
-
-    if not payments:
-        return jsonify({"message": "No payment data found for this restaurant"}), 404
-
+    payments = Payment.query.filter_by(restaurant_id=restaurant_id).all()
+    # payments = Payment.query.all()
     hourly_sales = {}
-    hourly_transactions = {}
 
     for payment in payments:
         hour = payment.timestamp.hour
         hourly_sales[hour] = hourly_sales.get(hour, 0) + payment.transaction_amount
-        hourly_transactions[hour] = hourly_transactions.get(hour, 0) + 1
 
-    peak_hour_sales = max(hourly_sales, key=hourly_sales.get) if hourly_sales else None
-    peak_hour_transactions = (
-        max(hourly_transactions, key=hourly_transactions.get)
-        if hourly_transactions
-        else None
-    )
+    peak_hour = max(hourly_sales, key=hourly_sales.get) if hourly_sales else None
 
-    # Format hours in 12-hour format with AM/PM
-    formatted_hourly_sales = {}
-    for hour, amount in hourly_sales.items():
-        period = "AM" if hour < 12 else "PM"
-        hour_12 = hour % 12
-        if hour_12 == 0:
-            hour_12 = 12
-        formatted_hourly_sales[f"{hour_12} {period}"] = amount
-
-    return jsonify(
-        {
-            "peak_hour_sales": (
-                f"{peak_hour_sales}:00" if peak_hour_sales is not None else None
-            ),
-            "peak_hour_transactions": (
-                f"{peak_hour_transactions}:00"
-                if peak_hour_transactions is not None
-                else None
-            ),
-            "hourly_sales": formatted_hourly_sales,
-            "hourly_transactions": hourly_transactions,
-        }
-    )
+    return jsonify({"peak_hour": peak_hour, "hourly_sales": hourly_sales})
 
 
 @app.route("/predict", methods=["POST"])
 @jwt_required()
 def predict():
-    restaurant_id = get_jwt_identity()
     data = request.json
+    X_input = pd.DataFrame([data])  # Convert input JSON to DataFrame
 
-    # Make sure we have the required data
-    required_fields = [
-        "day_of_week",
-        "hour_of_day",
-        "is_weekend",
-        "is_holiday",
-    ]  # Example fields
-    missing_fields = [field for field in required_fields if field not in data]
+    with open("sales_model.pkl", "rb") as f:
+        model = pickle.load(f)
 
-    if missing_fields:
-        return (
-            jsonify({"error": f"Missing required fields: {', '.join(missing_fields)}"}),
-            400,
-        )
-
-    try:
-        X_input = pd.DataFrame([data])  # Convert input JSON to DataFrame
-
-        # Load model - ideally you should have restaurant-specific models
-        # or at least ensure the model is trained on data from this restaurant
-        with open("sales_model.pkl", "rb") as f:
-            model = pickle.load(f)
-
-        prediction = model.predict(X_input)
-
-        return jsonify(
-            {
-                "restaurant_id": restaurant_id,
-                "predicted_sales": float(prediction[0]),
-                "input_parameters": data,
-            }
-        )
-    except Exception as e:
-        return jsonify({"error": f"Prediction error: {str(e)}"}), 500
+    prediction = model.predict(X_input)
+    return jsonify({"predicted_sales": prediction[0]})
 
 
 @app.route("/transactions/<limit>", methods=["GET"])
@@ -410,114 +292,175 @@ def alltransactions():
 
     return jsonify(payment_list)
 
+
 @app.route("/popularitem", methods=["GET"])
 def popularitem():
     insights_list, top_item = generate_insights(df_clean, df_time_analysis)
     return jsonify({"popular_item": top_item})
 
+
 @app.route("/insights", methods=["GET"])
-@jwt_required()
 def insights():
+    insights_list, top_item = generate_insights(df_clean, df_time_analysis)
+    return jsonify({"insights": insights_list})
+
+
+@app.route("/generate-bill", methods=["POST"])
+@jwt_required()
+def generate_bill():
+    # Get the restaurant ID from the JWT token
     restaurant_id = get_jwt_identity()
+    data = request.json
 
-    # Get all payments for this restaurant
-    payments = Payment.query.filter_by(restaurant_id=restaurant_id).all()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
 
-    if not payments:
-        return jsonify({"message": "No payment data found for this restaurant"}), 404
+    # Validate required fields
+    required_fields = [
+        "billNumber",
+        "date",
+        "time",
+        "customerName",
+        "items",
+        "grandTotal",
+        "tax",
+    ]
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"error": f"Missing required field: {field}"}), 400
 
-    # Convert to DataFrame for analysis
-    data = []
-    for payment in payments:
-        data.append(
-            {
-                "order_id": payment.order_id,
-                "timestamp": payment.timestamp,
-                "item_name": payment.item_name,
-                "item_type": payment.item_type,
-                "item_price": payment.item_price,
-                "quantity": payment.quantity,
-                "transaction_amount": payment.transaction_amount,
-                "transaction_type": payment.transaction_type,
-                "received_by": payment.received_by,
-            }
+    # Convert date and time to datetime
+    try:
+        bill_datetime = datetime.strptime(
+            f"{data['date']} {data['time']}", "%Y-%m-%d %H:%M"
         )
+    except ValueError:
+        return jsonify({"error": "Invalid date or time format"}), 400
 
-    df = pd.DataFrame(data)
-
-    # Perform time-based analysis
-    df["date"] = df["timestamp"].dt.date
-    df["hour"] = df["timestamp"].dt.hour
-    df["day_of_week"] = df["timestamp"].dt.day_name()
-    df["month"] = df["timestamp"].dt.month_name()
-
-    # Generate restaurant-specific insights based on their data
-    insights_list = []
-
-    # Top selling items
-    top_items = df.groupby("item_name")["quantity"].sum().sort_values(ascending=False)
-    if not top_items.empty:
-        top_item = top_items.index[0]
-        insights_list.append(
-            f"Your top selling item is {top_item} with {top_items[0]} units sold."
-        )
-
-    # Busiest day of week
-    day_sales = (
-        df.groupby("day_of_week")["transaction_amount"]
-        .sum()
-        .sort_values(ascending=False)
+    # Create new bill record
+    new_bill = Bill(
+        restaurant_id=restaurant_id,
+        bill_number=data["billNumber"],
+        timestamp=bill_datetime,
+        customer_name=data["customerName"],
+        table_number=data.get("tableNumber", ""),  # Optional field
+        subtotal=data["grandTotal"],
+        tax_amount=data["tax"],
+        total_amount=data["grandTotal"] + data["tax"],
     )
-    if not day_sales.empty:
-        busiest_day = day_sales.index[0]
-        insights_list.append(
-            f"Your busiest day is {busiest_day} with ${day_sales[0]:.2f} in sales."
+
+    db.session.add(new_bill)
+    db.session.flush()  # To get the bill ID
+
+    # Add bill items
+    for item in data["items"]:
+        bill_item = BillItem(
+            bill_id=new_bill.id,
+            description=item["description"],
+            quantity=item["quantity"],
+            unit_price=item["price"],
+            total_price=item["total"],
         )
+        db.session.add(bill_item)
 
-    # Busiest hour
-    hour_sales = (
-        df.groupby("hour")["transaction_amount"].sum().sort_values(ascending=False)
-    )
-    if not hour_sales.empty:
-        busiest_hour = hour_sales.index[0]
-        period = "AM" if busiest_hour < 12 else "PM"
-        hour_12 = busiest_hour % 12
-        if hour_12 == 0:
-            hour_12 = 12
-        insights_list.append(
-            f"Your peak hour is {hour_12} {period} with ${hour_sales[0]:.2f} in sales."
+    try:
+        db.session.commit()
+        return (
+            jsonify(
+                {
+                    "message": "Bill generated successfully",
+                    "bill_id": new_bill.id,
+                    "bill_number": new_bill.bill_number,
+                }
+            ),
+            201,
         )
-
-    # Average transaction value
-    avg_transaction = df["transaction_amount"].mean()
-    insights_list.append(f"Your average transaction value is ${avg_transaction:.2f}.")
-
-    # Sales growth (if data spans multiple months)
-    if df["date"].nunique() > 30:
-        df["month_year"] = df["timestamp"].dt.to_period("M")
-        monthly_sales = df.groupby("month_year")["transaction_amount"].sum()
-        if len(monthly_sales) >= 2:
-            last_month = monthly_sales.index[-1]
-            previous_month = monthly_sales.index[-2]
-            growth_rate = (
-                (monthly_sales[last_month] - monthly_sales[previous_month])
-                / monthly_sales[previous_month]
-            ) * 100
-            insights_list.append(
-                f"Your monthly sales growth is {growth_rate:.1f}% compared to the previous month."
-            )
-
-    return jsonify(
-        {
-            "restaurant_id": restaurant_id,
-            "insights": insights_list,
-            "data_points": len(df),
-            "date_range": {
-                "start": df["timestamp"].min().strftime("%Y-%m-%d"),
-                "end": df["timestamp"].max().strftime("%Y-%m-%d"),
-            },
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Failed to generate bill: {str(e)}"}), 500
+    
+# Get all bills for restaurant
+@app.route("/bills", methods=["GET"])
+@jwt_required()
+def get_bills():
+    restaurant_id = get_jwt_identity()
+    
+    # Get bills with newest first
+    bills = Bill.query.filter_by(restaurant_id=restaurant_id).order_by(Bill.timestamp.desc()).all()
+    
+    bills_list = []
+    for bill in bills:
+        bill_dict = {
+            "id": bill.id,
+            "bill_number": bill.bill_number,
+            "timestamp": bill.timestamp.strftime("%Y-%m-%d %H:%M"),
+            "customer_name": bill.customer_name,
+            "table_number": bill.table_number,
+            "subtotal": bill.subtotal,
+            "tax_amount": bill.tax_amount,
+            "total_amount": bill.total_amount,
+            "created_at": bill.created_at.strftime("%Y-%m-%d %H:%M:%S")
         }
-    )
+        bills_list.append(bill_dict)
+    
+    return jsonify(bills_list)
+
+# Get specific bill with items
+@app.route("/bills/<int:bill_id>", methods=["GET"])
+@jwt_required()
+def get_bill_detail(bill_id):
+    restaurant_id = get_jwt_identity()
+    
+    bill = Bill.query.filter_by(id=bill_id, restaurant_id=restaurant_id).first()
+    
+    if not bill:
+        return jsonify({"error": "Bill not found or unauthorized"}), 404
+    
+    items_list = []
+    for item in bill.items:
+        item_dict = {
+            "id": item.id,
+            "description": item.description,
+            "quantity": item.quantity,
+            "unit_price": item.unit_price,
+            "total_price": item.total_price
+        }
+        items_list.append(item_dict)
+    
+    bill_dict = {
+        "id": bill.id,
+        "bill_number": bill.bill_number,
+        "timestamp": bill.timestamp.strftime("%Y-%m-%d %H:%M"),
+        "customer_name": bill.customer_name,
+        "table_number": bill.table_number,
+        "subtotal": bill.subtotal,
+        "tax_amount": bill.tax_amount,
+        "total_amount": bill.total_amount,
+        "created_at": bill.created_at.strftime("%Y-%m-%d %H:%M:%S"),
+        "items": items_list
+    }
+    
+    return jsonify(bill_dict)
+
+# Delete a bill
+@app.route("/bills/<int:bill_id>", methods=["DELETE"])
+@jwt_required()
+def delete_bill(bill_id):
+    restaurant_id = get_jwt_identity()
+    
+    bill = Bill.query.filter_by(id=bill_id, restaurant_id=restaurant_id).first()
+    
+    if not bill:
+        return jsonify({"error": "Bill not found or unauthorized"}), 404
+    
+    try:
+        # This will also delete related bill items due to cascade="all, delete-orphan"
+        db.session.delete(bill)
+        db.session.commit()
+        return jsonify({"message": "Bill deleted successfully"})
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Failed to delete bill: {str(e)}"}), 500
 
 
 # Error handlers

@@ -28,6 +28,9 @@ jwt = JWTManager(app)
 
 from entities.Restaurant import Restaurant
 from entities.Payment import Payment
+from entities.Bill import Bill
+from entities.BillItem import BillItem
 
+# if you want to create table, comment out the next lines
 from controllers import Restaurant
 from controllers import Restaurant_Sales

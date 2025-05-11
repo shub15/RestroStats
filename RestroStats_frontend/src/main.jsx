@@ -25,6 +25,7 @@ import RestaurantDashboard from './components/RestaurantDashboard.jsx';
 import RestaurantLoginForm from './components/RestaurantLoginForm.jsx';
 import Register from './components/Register.jsx';
 import AccountInfo from './components/AccountInfo.jsx';
+import PrintBill from './components/PrintBill.jsx';
 
 // Layout component with Navbar
 const NavbarLayout = () => {
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
           {
             path: "/accountinfo",
             element: <AccountInfo />
+          },
+          {
+            path: "/printbill",
+            element: <PrintBill />
           },
         ]
       },

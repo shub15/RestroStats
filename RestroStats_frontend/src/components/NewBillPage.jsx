@@ -53,9 +53,71 @@ export default function NewBillPage() {
     setGrandTotal(updatedItems.reduce((sum, item) => sum + item.total, 0));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Bill generated successfully!");
+    
+    if (!date || !time || !customerName || items.length === 0) {
+      alert("Please fill in all required fields and add at least one item before generating the bill");
+      return;
+    }
+    
+    try {
+      // Get token from local storage or context
+      const token = localStorage.getItem('restaurantToken');
+      if (!token) {
+        alert("You must be logged in to generate bills");
+        return;
+      }
+      
+      // Calculate tax amount
+      const taxAmount = calculateTax();
+      
+      const response = await fetch('http://localhost:5000/generate-bill', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          billNumber: billNumber || `BILL-${Date.now().toString().slice(-6)}`,
+          date,
+          time,
+          customerName,
+          tableNumber, 
+          items,
+          grandTotal,
+          tax: taxAmount
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        alert(`Bill generated successfully! Bill Number: ${data.bill_number}`);
+        // Optional: Clear form or redirect
+        clearForm();
+        // or window.location.href = '/bills';
+      } else {
+        alert(`Error: ${data.error || 'Failed to generate bill'}`);
+      }
+    } catch (error) {
+      console.error("Error generating bill:", error);
+      alert("An error occurred while generating the bill. Please try again.");
+    }
+  };
+  
+  // Add a helper function to clear the form
+  const clearForm = () => {
+    setItems([]);
+    setGrandTotal(0);
+    setCustomerName("");
+    setTableNumber("");
+    setBillNumber("");
+    // Don't clear date and time if autofill is enabled
+    if (!autoFill) {
+      setDate("");
+      setTime("");
+    }
   };
 
   const calculateTax = () => {

@@ -55,6 +55,11 @@ except:
     model_pipeline = None
     categorical_features = None
     numerical_features = None
+    
+with app.app_context():
+    engine = db.engine
+    df = pd.read_sql_query("SELECT * FROM payments", engine)
+    print(df.head())
 
 
 # Load the data
@@ -250,10 +255,6 @@ def predict_sales(
 @app.route("/api/get-analysis", methods=["GET"])
 def get_analysis():
     try:
-        with app.app_context():
-            engine = db.engine
-            df = pd.read_sql_query("SELECT * FROM payments", engine)
-            print(df.head())
         df_clean, df_time_analysis = clean_data(df)
         analysis_results = analyze_data(df_clean, df_time_analysis)
 
@@ -447,7 +448,7 @@ def make_prediction():
 @app.route("/api/get-options", methods=["GET"])
 def get_options():
     try:
-        df = pd.read_csv("sample_data.csv")
+        # df = pd.read_csv("sample_data.csv")
 
         return jsonify(
             {

@@ -89,12 +89,12 @@ export default function VerticalNavbar() {
                             </li>
                         </ul>
                     </li>
-                    <li className="has-submenu">
+                    {/* <li className="has-submenu">
                         <Link to="#reports" className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Reports &amp; Analytics</Link>
                     </li>
                     <li className="has-submenu">
                         <Link to="#staff-manage" className={`block py-1 px-3 rounded ${darkTheme ? `dark:hover:bg-zinc-800`: `hover:bg-zinc-200`}`}>Staff Management</Link>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         </>
