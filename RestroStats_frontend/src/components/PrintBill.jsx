@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "../styles/print-bill.css";
+// import "../styles/print-bill.css";
 
 export default function PrintBill() {
   const [bill, setBill] = useState(null);

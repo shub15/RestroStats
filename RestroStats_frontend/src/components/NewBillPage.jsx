@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useTheme } from "./ThemeProvider";
-import "../styles/print-bill.css"; // We'll create print-specific styles
+import "../styles/print-bill.css";
 
 export default function NewBillPage() {
   const [items, setItems] = useState([]);
@@ -133,7 +133,7 @@ export default function NewBillPage() {
   };
 
   return (
-    <div className={`min-h-screen py-10 px-4 md:px-8 lg:px-12 transition-colors duration-300 ${
+    <div className={`min-h-screen p-4 transition-colors duration-300 ${
       darkTheme 
         ? "bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white" 
         : "bg-gradient-to-br from-gray-50 via-gray-100 to-gray-50 text-gray-900"
@@ -141,18 +141,16 @@ export default function NewBillPage() {
       {/* Modern Form UI - Full width on desktop */}
       <div className="w-full mx-auto">
         {/* Header */}
-        <div className={`mb-10 rounded-2xl shadow-xl overflow-hidden ${
+        {/* <div className={`mb-10 rounded-2xl shadow-xl overflow-hidden ${
           darkTheme ? "bg-gradient-to-r from-blue-900 to-purple-900" : "bg-gradient-to-r from-blue-600 to-purple-600"
         }`}>
           <div className="px-6 py-8 text-white">
             <h1 className="text-4xl font-extrabold tracking-tight text-center">Generate New Bill</h1>
             <p className="text-center mt-2 text-lg opacity-90">Create professional invoices for your customers</p>
           </div>
-        </div>
+        </div> */}
         
-        <form onSubmit={handleSubmit} className={`rounded-2xl shadow-xl overflow-hidden p-6 md:p-8 space-y-8 mb-20 ${
-          darkTheme ? "bg-gray-800/80 backdrop-blur-lg" : "bg-white/80 backdrop-blur-lg"
-        }`}>
+        <form onSubmit={handleSubmit} className={`overflow-hidden space-y-8 mb-20`}>
           {/* Two-column layout for desktop */}
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left Column - Customer Details */}

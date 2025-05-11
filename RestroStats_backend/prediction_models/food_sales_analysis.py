@@ -164,21 +164,21 @@ def generate_insights(df_clean, df_time_analysis):
     if not day_sales.empty:
         low_day = day_sales.idxmin()
         low_day_amount = day_sales.min()
-        insights.append(f"📉 The lowest sales occur on {low_day}, totaling Rs. {low_day_amount:.2f}. You can consider giving staff a break or operating half-day.")
+        insights.append(f"The lowest sales occur on {low_day}, totaling Rs. {low_day_amount:.2f}. You can consider giving staff a break or operating half-day.")
 
     # 2. High-performing time slot
     time_sales = df_time_analysis.groupby('time_of_day')['transaction_amount'].sum()
     if not time_sales.empty:
         best_time = time_sales.idxmax()
         best_time_amount = time_sales.max()
-        insights.append(f"🔥 Peak business happens in the {best_time}, with sales reaching Rs. {best_time_amount:.2f}. You can promote special combos during this time.")
+        insights.append(f"Peak business happens in the {best_time}, with sales reaching Rs. {best_time_amount:.2f}. You can promote special combos during this time.")
 
     # 3. Top-selling item
     top_item_series = df_clean.groupby('item_name')['quantity'].sum()
     if not top_item_series.empty:
         top_item = top_item_series.idxmax()
         top_qty = top_item_series.max()
-        insights.append(f"🏆 The most popular item is {top_item}, sold {top_qty} times. Make sure it's always in stock!")
+        insights.append(f"The most popular item is {top_item}, sold {top_qty} times. Make sure it's always in stock!")
     else:
         top_item = None
 
@@ -187,13 +187,13 @@ def generate_insights(df_clean, df_time_analysis):
         bottom_item = top_item_series.idxmin()
         bottom_qty = top_item_series.min()
         if bottom_qty <= 2:
-            insights.append(f"❌ The item {bottom_item} sold only {bottom_qty} time(s). Consider removing it from the menu.")
+            insights.append(f"The item {bottom_item} sold only {bottom_qty} time(s). Consider removing it from the menu.")
 
     # 5. Day-Time combination with low performance
     combo_sales = df_time_analysis.groupby(['day_of_week', 'time_of_day'])['transaction_amount'].sum()
     if not combo_sales.empty:
         low_combo = combo_sales.idxmin()
-        insights.append(f"📉 On {low_combo[0]} {low_combo[1]}, sales are lowest. You might want to run offers to attract more customers.")
+        insights.append(f"On {low_combo[0]} {low_combo[1]}, sales are lowest. You might want to run offers to attract more customers.")
 
     return insights, top_item
 

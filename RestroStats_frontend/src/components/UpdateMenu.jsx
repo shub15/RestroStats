@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import logoDark from "../assets/LOGO 1 1024 dark.jpg";
 import menuLogoDark from "../assets/LOGO 1 1024 menu-dark.jpg";
-import "../styles/update_menu.css"
+// import "../styles/update_menu.css"
 
 export default function UpdateMenu() {
   const [menuItems, setMenuItems] = useState([

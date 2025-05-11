@@ -1,5 +1,5 @@
 import React from 'react'
-import "../styles/view_menu.css"
+// import "../styles/view_menu.css"
 
 export default function ViewMenu_1() {
     return (
