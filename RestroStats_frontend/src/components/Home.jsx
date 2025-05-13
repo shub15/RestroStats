@@ -3,6 +3,7 @@ import ChartComponent from "./ChartComponent.jsx";
 import { useTheme } from './ThemeProvider.jsx';
 import axios from 'axios';
 import TransactionDisplay from './TransactionDisplay.jsx';
+import { Link } from 'react-router-dom';
 
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -91,7 +92,7 @@ export default function Home() {
 
     return (
         <div className={`min-h-screen p-6 md:p-8 lg:p-12 transition-colors duration-300 ${darkTheme ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white' :
-                'bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 text-gray-800'
+            'bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 text-gray-800'
             }`}>
             {/* Dashboard Header */}
             <div className="flex flex-col sm:flex-row justify-between items-center mb-12">
@@ -240,7 +241,7 @@ export default function Home() {
                                 </svg>
                                 Sales by Day and Time
                             </h2>
-                            <div className="overflow-x-auto">
+                            <div className="overflow-hidden">
                                 <table className="w-full border-collapse">
                                     <thead>
                                         <tr className={`${darkTheme ? 'bg-gray-800' : 'bg-gray-100'}`}>
@@ -302,8 +303,8 @@ export default function Home() {
                                 onChange={handleInputChange}
                                 required
                                 className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${darkTheme
-                                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                                        : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
+                                    ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
                                     } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}
                             >
                                 <option value="">Select Item</option>
@@ -323,8 +324,8 @@ export default function Home() {
                                 onChange={handleInputChange}
                                 required
                                 className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${darkTheme
-                                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                                        : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
+                                    ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
                                     } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}
                             >
                                 <option value="">Select Item Type</option>
@@ -344,8 +345,8 @@ export default function Home() {
                                 onChange={handleInputChange}
                                 required
                                 className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${darkTheme
-                                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                                        : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
+                                    ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
                                     } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}
                             >
                                 <option value="">Select Day</option>
@@ -365,8 +366,8 @@ export default function Home() {
                                 onChange={handleInputChange}
                                 required
                                 className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${darkTheme
-                                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                                        : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
+                                    ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
                                     } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}
                             >
                                 <option value="">Select Time</option>
@@ -386,8 +387,8 @@ export default function Home() {
                                 onChange={handleInputChange}
                                 required
                                 className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${darkTheme
-                                        ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
-                                        : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
+                                    ? 'bg-gray-700 border-gray-600 text-white focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-800 focus:border-blue-500'
                                     } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}
                             >
                                 <option value="">Select Customer Type</option>
@@ -410,8 +411,8 @@ export default function Home() {
                                 required
                                 placeholder="Item Price"
                                 className={`w-full px-4 py-3 rounded-lg border transition-all duration-200 ${darkTheme
-                                        ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500'
-                                        : 'bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-blue-500'
+                                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500'
+                                    : 'bg-white border-gray-300 text-gray-800 placeholder-gray-500 focus:border-blue-500'
                                     } focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20`}
                             />
                         </div>
@@ -421,8 +422,8 @@ export default function Home() {
                         type="submit"
                         disabled={loading}
                         className={`w-full md:w-auto px-8 py-3 rounded-lg font-medium transition-all duration-300 ${loading
-                                ? 'bg-gray-400 cursor-not-allowed'
-                                : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 hover:shadow-lg transform hover:-translate-y-0.5'
+                            ? 'bg-gray-400 cursor-not-allowed'
+                            : 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 hover:shadow-lg transform hover:-translate-y-0.5'
                             } text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
                     >
                         {loading ? (
@@ -441,8 +442,8 @@ export default function Home() {
 
                 {predictionData && (
                     <div className={`mt-6 p-6 rounded-xl transform transition-all duration-300 ${darkTheme
-                            ? 'bg-gradient-to-r from-green-900 to-green-800'
-                            : 'bg-gradient-to-r from-green-50 to-green-100'
+                        ? 'bg-gradient-to-r from-green-900 to-green-800'
+                        : 'bg-gradient-to-r from-green-50 to-green-100'
                         }`}>
                         <h3 className={`text-xl font-bold mb-4 ${darkTheme ? 'text-green-400' : 'text-green-700'
                             }`}>
@@ -456,7 +457,11 @@ export default function Home() {
             </div>
 
             {/* Transaction Display */}
-            <TransactionDisplay limit={5} />
+            <Link to='/paymenthistory' className='flex items-center justify-end gap-2 mb-6 p-4 rounded-lg dark:bg-blue-800 bg-blue-500 text-white shadow-lg hover:shadow-xl transition-all duration-300'>
+                <h1>Quick link to payment history</h1>
+                <span className='material-symbols-outlined'>arrow_forward</span>
+            </Link>
+            {/* <TransactionDisplay limit={5} /> */}
         </div>
     );
 }

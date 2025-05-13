@@ -23,24 +23,6 @@ const TransactionDisplay = ({limit}) => {
   //     "transaction_amount": 20.0,
   //     "transaction_type": "Cash"
   //   },
-  //   {
-  //     "item_name": "Sugarcane juice",
-  //     "item_price": 25.0,
-  //     "order_id": "4",
-  //     "quantity": 6,
-  //     "timestamp": "Fri, 03 Feb 2023 22:00:00 GMT",
-  //     "transaction_amount": 150.0,
-  //     "transaction_type": "Online"
-  //   },
-  //   {
-  //     "item_name": "Sugarcane juice",
-  //     "item_price": 25.0,
-  //     "order_id": "5",
-  //     "quantity": 8,
-  //     "timestamp": "Sun, 02 Oct 2022 18:00:00 GMT",
-  //     "transaction_amount": 200.0,
-  //     "transaction_type": "Online"
-  //   }
   // ]);
   const [transactions, setTransactions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -139,10 +121,10 @@ const TransactionDisplay = ({limit}) => {
   }
   // console.log(transactions)
   return (
-    <div className={`min-h-screen p-4 transition-colors duration-200 ${darkTheme ? 'bg-gray-900 text-gray-100' : 'bg-gray-50 text-gray-800'}`}>
+    <div className={`min-h-screen p-4 transition-colors duration-200 rounded-lg ${darkTheme ? ' text-gray-100' : 'bg-gray-50 text-gray-800'}`}>
       <div className="mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Transaction History</h1>
+          {/* <h1 className="text-2xl font-bold">Transaction History</h1> */}
           {/* <button
             onClick={toggleDarkMode}
             className={`px-4 py-2 rounded-lg ${darkTheme
@@ -222,8 +204,8 @@ const TransactionDisplay = ({limit}) => {
               </tr>
             </thead>
             <tbody className={`divide-y ${darkTheme ? 'divide-gray-700' : 'divide-gray-200'}`}>
-              {filteredTransactions.map((transaction) => (
-                <tr key={transaction.order_id} className={darkTheme ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}>
+              {filteredTransactions.map((transaction, i) => (
+                <tr key={transaction.order_id} className={darkTheme ? `hover:bg-gray-700` : `hover:bg-gray-50 ${i % 2 === 0 ? 'bg-gray-50' : 'bg-white'}`}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">#{transaction.order_id}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div>{transaction.item_name}</div>
