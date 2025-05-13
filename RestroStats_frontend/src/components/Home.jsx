@@ -126,29 +126,31 @@ export default function Home() {
             </div>
 
             {/* Key Insights Section */}
-            {insightsData && (
-                <div className={`mb-12 bg-blue-800 p-6 rounded-2xl shadow-xl transform hover:scale-102 transition-all duration-300 ${darkTheme ? 'text-white' : 'text-white'
-                    }`}>
-                    <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
-                        Key Insights
-                    </h2>
-                    <ul className="space-y-3">
-                        {insightsData.insights.map((point, index) => (
-                            <li key={index} className="flex items-start gap-3">
-                                {/* <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-900 bg-opacity-20 flex items-center justify-center mt-0.5">
-                                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                </span> */}
-                                <span className="text-lg font-medium">{point}</span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+            {/*
+                {insightsData && (
+                    <div className={`mb-12 bg-blue-500 dark:bg-blue-800 p-6 rounded-2xl shadow-xl transform transition-all duration-300 ${darkTheme ? 'text-white' : 'text-white'
+                        }`}>
+                        <h2 className="text-2xl font-bold mb-4 flex items-center gap-2">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            Key Insights
+                        </h2>
+                        <ul className="space-y-3">
+                            {insightsData.insights.map((point, index) => (
+                                <li key={index} className="flex items-start gap-3">
+                                    <span className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-900 bg-opacity-20 flex items-center justify-center mt-0.5">
+                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>b
+                                    </span>
+                                    <span className="text-lg font-medium">{point}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )} 
+            */}
 
             {/* Charts Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
@@ -156,7 +158,7 @@ export default function Home() {
                     <>
                         {/* Favorite Items Chart */}
                         <div className={`rounded-2xl shadow-xl overflow-hidden ${darkTheme ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-50'
-                            } p-6 transform hover:scale-102 transition-all duration-300`}>
+                            } p-6 transform transition-all duration-300`}>
                             <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${darkTheme ? 'text-blue-400' : 'text-blue-600'
                                 }`}>
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -171,11 +173,18 @@ export default function Home() {
                                     data={analysisData.favorite_items}
                                 />
                             </div>
+                            <div className={`bg-blue-500 dark:bg-blue-800 p-6 rounded-2xl shadow-xl transform transition-all duration-300 text-white`}>
+                                {insightsData && (insightsData.insights.map((point, index) => (
+                                    index == 2 ? <li key={index} className="flex items-start gap-3">
+                                        <span className="text-lg font-medium">{point}</span>
+                                    </li> : null
+                                )))}
+                            </div>
                         </div>
 
                         {/* Daily Sales Chart */}
                         <div className={`rounded-2xl shadow-xl overflow-hidden ${darkTheme ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-50'
-                            } p-6 transform hover:scale-102 transition-all duration-300`}>
+                            } p-6 transform transition-all duration-300`}>
                             <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${darkTheme ? 'text-green-400' : 'text-green-600'
                                 }`}>
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -190,11 +199,18 @@ export default function Home() {
                                     data={analysisData.day_sales}
                                 />
                             </div>
+                            <div className={`bg-blue-500 dark:bg-blue-800 p-6 rounded-2xl shadow-xl transform transition-all duration-300 text-white`}>
+                                {insightsData && (insightsData.insights.map((point, index) => (
+                                    !(index == 2) ? <li key={index} className="flex items-start gap-3">
+                                        <span className="text-lg font-medium">{point}</span>
+                                    </li> : null
+                                )))}
+                            </div>
                         </div>
 
                         {/* Monthly Sales Trend */}
                         <div className={`rounded-2xl shadow-xl overflow-hidden ${darkTheme ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-50'
-                            } p-6 transform hover:scale-102 transition-all duration-300`}>
+                            } p-6 transform transition-all duration-300`}>
                             <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${darkTheme ? 'text-yellow-400' : 'text-yellow-600'
                                 }`}>
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -213,7 +229,7 @@ export default function Home() {
 
                         {/* Item Type Distribution */}
                         <div className={`rounded-2xl shadow-xl overflow-hidden ${darkTheme ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-50'
-                            } p-6 transform hover:scale-102 transition-all duration-300`}>
+                            } p-6 transform transition-all duration-300`}>
                             <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${darkTheme ? 'text-purple-400' : 'text-purple-600'
                                 }`}>
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
