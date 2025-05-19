@@ -3,6 +3,8 @@ import axios from "axios";
 import { useTheme } from "./ThemeProvider";
 import { Link, useNavigate } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function Login() {
   const { darkTheme } = useTheme();
   const [formData, setFormData] = useState({
@@ -32,7 +34,7 @@ export default function Login() {
       setLoading(true);
       setError("");
       
-      const response = await axios.post("http://localhost:5000/login", formData);
+      const response = await axios.post(`${baseURL}/login`, formData);
       
       // Handle successful login (e.g., store token, redirect)
       const token = response.data.access_token;

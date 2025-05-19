@@ -1,24 +1,19 @@
-from flask import Flask, jsonify, request, send_file
-from flask_cors import CORS
-from flask_jwt_extended import get_jwt_identity, jwt_required
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
 import pickle
-import io
-import base64
-import json
+import os
 from datetime import datetime
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline
-from sklearn.metrics import mean_squared_error, r2_score
+
+import numpy as np
+import pandas as pd
+
 from app import app, db
 
+from flask import Flask, jsonify, request, send_file, send_from_directory
+from flask_cors import CORS
+from flask_jwt_extended import get_jwt_identity, jwt_required
+import json
+
 from entities.Payment import Payment
+from prediction_models import food_sales_analysis
 
 CORS(app)
 
@@ -62,6 +57,33 @@ with app.app_context():
     print(df.head())
 
 
+# Configuration
+REACT_FOLDER = ''
+BUILD_DIR = os.path.join(os.getcwd(), REACT_FOLDER, 'templates')
+STATIC_DIR = os.path.join(BUILD_DIR, 'assets')
+
+@app.route('/')
+def index():
+    """
+    Serves the main React app (index.html).
+    """
+    print(f"Serving index from: {BUILD_DIR}")
+    return send_from_directory(directory=BUILD_DIR, path='index.html')
+
+@app.route('/assets/<path:filename>')
+def serve_static(filename):
+    """
+    Serves static files from the React build.
+    """
+    # static_file_path = os.path.join(folder, file)
+    return send_from_directory(directory=STATIC_DIR, path=filename)
+
+# Catch-all route: serve index.html for all other routes
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    return send_from_directory(directory=BUILD_DIR, path='index.html')
+
 # Load the data
 @app.route("/api/load-data", methods=["POST"])
 @jwt_required()
@@ -77,13 +99,13 @@ def load_data():
         df = pd.read_csv(file)
         df = df.dropna()
         df["timestamp"] = pd.to_datetime(df["timestamp"], dayfirst=True, errors="coerce")
-        df_clean, df_time_analysis = clean_data(df)
-        analysis_results = analyze_data(df_clean, df_time_analysis)
+        df_clean, df_time_analysis = food_sales_analysis.clean_data(df)
+        analysis_results = food_sales_analysis.analyze_data(df_clean, df_time_analysis)
 
         # Build prediction model
         if model_pipeline is None:
             model_pipeline, categorical_features, numerical_features = (
-                build_prediction_model(df_time_analysis)
+                # food_sales_analysis.build_prediction_model(df_time_analysis)
             )
 
         for _, row in df_clean.iterrows():
@@ -116,147 +138,11 @@ def load_data():
             500,
         )
 
-
-# Data cleaning
-def clean_data(df):
-    df_clean = df.copy()
-
-    df_clean["timestamp"] = pd.to_datetime(
-        df_clean["timestamp"], format="%d-%m-%Y %H:%M", errors="coerce"
-    )
-
-    df_time_analysis = df_clean.dropna(subset=["timestamp"]).copy()
-
-    df_time_analysis["day_of_week"] = df_time_analysis["timestamp"].dt.day_name()
-    df_time_analysis["month"] = df_time_analysis["timestamp"].dt.month_name()
-    df_time_analysis["hour"] = df_time_analysis["timestamp"].dt.hour
-
-    time_of_day_map = {8: "Morning", 14: "Afternoon", 18: "Evening", 22: "Night"}
-    df_time_analysis["time_of_day"] = df_time_analysis["hour"].map(time_of_day_map)
-
-    df_clean["transaction_type"] = df_clean["transaction_type"].fillna(
-        df_clean["transaction_type"].mode()[0]
-    )
-
-    return df_clean, df_time_analysis
-
-
-# Perform data analysis
-def analyze_data(df_clean, df_time_analysis):
-    day_time_sales = (
-        df_time_analysis.groupby(["day_of_week", "time_of_day"])["transaction_amount"]
-        .sum()
-        .unstack()
-    )
-
-    favorite_items = (
-        df_clean.groupby("item_name")["quantity"].sum().sort_values(ascending=False)
-    )
-
-    day_sales = (
-        df_time_analysis.groupby("day_of_week")["transaction_amount"]
-        .sum()
-        .sort_values(ascending=False)
-    )
-
-    item_type_sales = df_clean.groupby("item_type")["transaction_amount"].sum()
-
-    monthly_sales = df_time_analysis.groupby("month")["transaction_amount"].sum()
-
-    customer_time_preference = (
-        df_time_analysis.groupby(["time_of_day", "received_by"]).size().unstack()
-    )
-
-    df_clean["profit"] = df_clean["transaction_amount"] * 0.4
-
-    return {
-        "day_time_sales": day_time_sales,
-        "favorite_items": favorite_items,
-        "day_sales": day_sales,
-        "item_type_sales": item_type_sales,
-        "monthly_sales": monthly_sales,
-        "customer_time_preference": customer_time_preference,
-    }
-
-
-# Prediction model
-def build_prediction_model(df_time_analysis):
-    model_df = df_time_analysis.copy()
-
-    categorical_features = [
-        "item_name",
-        "item_type",
-        "day_of_week",
-        "time_of_day",
-        "received_by",
-    ]
-    numerical_features = ["item_price"]
-
-    # Define preprocessor
-    preprocessor = ColumnTransformer(
-        transformers=[
-            ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features)
-        ],
-        remainder="passthrough",
-    )
-
-    model_pipeline = Pipeline(
-        steps=[
-            ("preprocessor", preprocessor),
-            ("model", RandomForestRegressor(n_estimators=100, random_state=42)),
-        ]
-    )
-
-    X = model_df[categorical_features + numerical_features]
-    y = model_df["transaction_amount"]
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=0.2, random_state=42
-    )
-
-    model_pipeline.fit(X_train, y_train)
-
-    y_pred = model_pipeline.predict(X_test)
-    mse = mean_squared_error(y_test, y_pred)
-    r2 = r2_score(y_test, y_pred)
-
-    with open("sales_model.pkl", "wb") as f:
-        pickle.dump(model_pipeline, f)
-
-    return model_pipeline, categorical_features, numerical_features
-
-
-# Function to predict sales
-def predict_sales(
-    item_name, item_type, day_of_week, time_of_day, received_by, item_price
-):
-    if model_pipeline is None:
-        return None, None
-
-    input_data = pd.DataFrame(
-        {
-            "item_name": [item_name],
-            "item_type": [item_type],
-            "day_of_week": [day_of_week],
-            "time_of_day": [time_of_day],
-            "received_by": [received_by],
-            "item_price": [float(item_price)],
-        }
-    )
-
-    predicted_sales = model_pipeline.predict(
-        input_data[categorical_features + numerical_features]
-    )[0]
-    predicted_profit = predicted_sales * 0.4
-
-    return float(predicted_sales), float(predicted_profit)
-
-
 @app.route("/api/get-analysis", methods=["GET"])
 def get_analysis():
     try:
-        df_clean, df_time_analysis = clean_data(df)
-        analysis_results = analyze_data(df_clean, df_time_analysis)
+        df_clean, df_time_analysis = food_sales_analysis.clean_data(df)
+        analysis_results = food_sales_analysis.analyze_data(df_clean, df_time_analysis)
 
         # Convert to JSON-compatible format
         day_time_sales_records = []
@@ -380,8 +266,8 @@ def make_prediction():
         predictions = []
 
         for day in days:
-            predicted_sales, predicted_profit = predict_sales(
-                item_name, item_type, day, time_of_day, received_by, item_price
+            predicted_sales, predicted_profit = food_sales_analysis.predict_sales(
+                model_pipeline, item_name, item_type, day, time_of_day, received_by, item_price, categorical_features, numerical_features
             )
             predictions.append(
                 {
@@ -395,8 +281,8 @@ def make_prediction():
         time_predictions = []
 
         for time in times:
-            predicted_sales, predicted_profit = predict_sales(
-                item_name, item_type, day_of_week, time, received_by, item_price
+            predicted_sales, predicted_profit = food_sales_analysis.predict_sales(
+                model_pipeline, item_name, item_type, day, time_of_day, received_by, item_price, categorical_features, numerical_features
             )
             time_predictions.append(
                 {
@@ -473,3 +359,138 @@ def get_options():
             jsonify({"success": False, "message": f"Error getting options: {str(e)}"}),
             500,
         )
+        
+        
+# # Data cleaning
+# def clean_data(df):
+#     df_clean = df.copy()
+
+#     df_clean["timestamp"] = pd.to_datetime(
+#         df_clean["timestamp"], format="%d-%m-%Y %H:%M", errors="coerce"
+#     )
+
+#     df_time_analysis = df_clean.dropna(subset=["timestamp"]).copy()
+
+#     df_time_analysis["day_of_week"] = df_time_analysis["timestamp"].dt.day_name()
+#     df_time_analysis["month"] = df_time_analysis["timestamp"].dt.month_name()
+#     df_time_analysis["hour"] = df_time_analysis["timestamp"].dt.hour
+
+#     time_of_day_map = {8: "Morning", 14: "Afternoon", 18: "Evening", 22: "Night"}
+#     df_time_analysis["time_of_day"] = df_time_analysis["hour"].map(time_of_day_map)
+
+#     df_clean["transaction_type"] = df_clean["transaction_type"].fillna(
+#         df_clean["transaction_type"].mode()[0]
+#     )
+
+#     return df_clean, df_time_analysis
+
+
+# # Perform data analysis
+# def analyze_data(df_clean, df_time_analysis):
+#     day_time_sales = (
+#         df_time_analysis.groupby(["day_of_week", "time_of_day"])["transaction_amount"]
+#         .sum()
+#         .unstack()
+#     )
+
+#     favorite_items = (
+#         df_clean.groupby("item_name")["quantity"].sum().sort_values(ascending=False)
+#     )
+
+#     day_sales = (
+#         df_time_analysis.groupby("day_of_week")["transaction_amount"]
+#         .sum()
+#         .sort_values(ascending=False)
+#     )
+
+#     item_type_sales = df_clean.groupby("item_type")["transaction_amount"].sum()
+
+#     monthly_sales = df_time_analysis.groupby("month")["transaction_amount"].sum()
+
+#     customer_time_preference = (
+#         df_time_analysis.groupby(["time_of_day", "received_by"]).size().unstack()
+#     )
+
+#     df_clean["profit"] = df_clean["transaction_amount"] * 0.4
+
+#     return {
+#         "day_time_sales": day_time_sales,
+#         "favorite_items": favorite_items,
+#         "day_sales": day_sales,
+#         "item_type_sales": item_type_sales,
+#         "monthly_sales": monthly_sales,
+#         "customer_time_preference": customer_time_preference,
+#     }
+
+
+# # Prediction model
+# def build_prediction_model(df_time_analysis):
+#     model_df = df_time_analysis.copy()
+
+#     categorical_features = [
+#         "item_name",
+#         "item_type",
+#         "day_of_week",
+#         "time_of_day",
+#         "received_by",
+#     ]
+#     numerical_features = ["item_price"]
+
+#     # Define preprocessor
+#     preprocessor = ColumnTransformer(
+#         transformers=[
+#             ("cat", OneHotEncoder(handle_unknown="ignore"), categorical_features)
+#         ],
+#         remainder="passthrough",
+#     )
+
+#     model_pipeline = Pipeline(
+#         steps=[
+#             ("preprocessor", preprocessor),
+#             ("model", RandomForestRegressor(n_estimators=100, random_state=42)),
+#         ]
+#     )
+
+#     X = model_df[categorical_features + numerical_features]
+#     y = model_df["transaction_amount"]
+
+#     X_train, X_test, y_train, y_test = train_test_split(
+#         X, y, test_size=0.2, random_state=42
+#     )
+
+#     model_pipeline.fit(X_train, y_train)
+
+#     y_pred = model_pipeline.predict(X_test)
+#     mse = mean_squared_error(y_test, y_pred)
+#     r2 = r2_score(y_test, y_pred)
+
+#     with open("sales_model.pkl", "wb") as f:
+#         pickle.dump(model_pipeline, f)
+
+#     return model_pipeline, categorical_features, numerical_features
+
+
+# # Function to predict sales
+# def predict_sales(
+#     item_name, item_type, day_of_week, time_of_day, received_by, item_price
+# ):
+#     if model_pipeline is None:
+#         return None, None
+
+#     input_data = pd.DataFrame(
+#         {
+#             "item_name": [item_name],
+#             "item_type": [item_type],
+#             "day_of_week": [day_of_week],
+#             "time_of_day": [time_of_day],
+#             "received_by": [received_by],
+#             "item_price": [float(item_price)],
+#         }
+#     )
+
+#     predicted_sales = model_pipeline.predict(
+#         input_data[categorical_features + numerical_features]
+#     )[0]
+#     predicted_profit = predicted_sales * 0.4
+
+#     return float(predicted_sales), float(predicted_profit)

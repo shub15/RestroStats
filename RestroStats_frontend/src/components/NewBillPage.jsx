@@ -2,6 +2,8 @@ import React, { useState, useRef } from "react";
 import { useTheme } from "./ThemeProvider";
 import "../styles/print-bill.css";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function NewBillPage() {
   const [items, setItems] = useState([]);
   const [grandTotal, setGrandTotal] = useState(0);
@@ -72,7 +74,7 @@ export default function NewBillPage() {
       // Calculate tax amount
       const taxAmount = calculateTax();
       
-      const response = await fetch('http://localhost:5000/generate-bill', {
+      const response = await fetch(`${baseURL}/generate-bill`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

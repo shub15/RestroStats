@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from './ThemeProvider';
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 const TransactionDisplay = ({limit}) => {
   const {darkTheme, toggleTheme} = useTheme()
 
@@ -38,7 +40,7 @@ const TransactionDisplay = ({limit}) => {
     const fetchTransactions = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch(`http://127.0.0.1:5000/transactions/${limit}`);
+        const response = await fetch(`${baseURL}/transactions/${limit}`);
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function RestaurantLoginForm() {
   const [formData, setFormData] = useState({
     email: "",
@@ -29,7 +31,7 @@ export default function RestaurantLoginForm() {
     try {
       console.log("Sending login request...");
 
-      const response = await fetch('http://localhost:5000/login', {
+      const response = await fetch(`${baseURL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

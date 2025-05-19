@@ -1,6 +1,8 @@
 import { useState } from "react";
 import logo from "../assets/LOGO 1.jpg";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -45,7 +47,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/register', {
+      const response = await fetch(`${baseURL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),

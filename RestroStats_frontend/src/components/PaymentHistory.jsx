@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import TransactionDisplay from "./TransactionDisplay";
 import { useTheme } from "./ThemeProvider";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function PaymentHistory() {
   const {darkTheme, toggleTheme} = useTheme()
 
@@ -24,7 +26,7 @@ export default function PaymentHistory() {
   const fetchTransactions = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://127.0.0.1:5000/transactions/all`);
+      const response = await fetch(`${baseURL}/transactions/all`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -40,7 +42,7 @@ export default function PaymentHistory() {
   const fetchPopularItem = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`http://127.0.0.1:5000/popularitem`);
+      const response = await fetch(`${baseURL}/popularitem`);
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }

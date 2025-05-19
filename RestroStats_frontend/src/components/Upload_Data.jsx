@@ -2,6 +2,8 @@ import { useState, useRef } from "react";
 import axios from "axios";
 import { useTheme } from "./ThemeProvider";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function Upload_Data() {
   const { darkTheme } = useTheme();
   const [formData, setFormData] = useState({
@@ -71,7 +73,7 @@ export default function Upload_Data() {
       setPredictionResult(null);
 
       const response = await axios.post(
-        "http://localhost:5000/predict",
+        `${baseURL}/predict`,
         formData,
         {
           headers: {
@@ -101,7 +103,7 @@ export default function Upload_Data() {
       const uploadData = new FormData();
       uploadData.append("file", file);
 
-      await axios.post("http://127.0.0.1:5000/api/load-data", uploadData, {
+      await axios.post(`${baseURL}/api/load-data`, uploadData, {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${token}`

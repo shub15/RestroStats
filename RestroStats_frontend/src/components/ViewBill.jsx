@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useTheme } from "./ThemeProvider";
 import { useNavigate } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function ViewBill() {
   const [bills, setBills] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,7 +28,7 @@ export default function ViewBill() {
         throw new Error("You must be logged in to view bills");
       }
 
-      const response = await fetch("http://localhost:5000/bills", {
+      const response = await fetch(`${baseURL}/bills`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -63,7 +65,7 @@ export default function ViewBill() {
         throw new Error("You must be logged in to view bill details");
       }
 
-      const response = await fetch(`http://localhost:5000/bills/${billId}`, {
+      const response = await fetch(`${baseURL}/bills/${billId}`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -96,7 +98,7 @@ export default function ViewBill() {
       }
 
       // Note: You would need to implement this endpoint
-      const response = await fetch(`http://localhost:5000/bills/${billId}`, {
+      const response = await fetch(`${baseURL}/bills/${billId}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${token}`,

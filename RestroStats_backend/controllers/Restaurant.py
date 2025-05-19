@@ -149,18 +149,18 @@ def update_restaurant_profile():
     if "state" in data:
         restaurant.state = data["state"]
     if "cuisine_type" in data:
-        restaurant.cusine_type = data["cuisine_type"]
+        restaurant.cuisine_type = data["cuisine_type"]
     if "phone" in data:
         restaurant.phone = data["phone"]
     if "password" in data:  # Hash the new password
         restaurant.password = bcrypt.generate_password_hash(data["password"]).decode(
             "utf-8"
         )
-    if "email" in data:  # Update email only if it's not already taken
-        existing_restaurant = Restaurant.query.filter_by(email=data["email"]).first()
-        if existing_restaurant and existing_restaurant.id != restaurant_id:
-            return jsonify({"error": "Email already registered"}), 409
-        restaurant.email = data["email"]  # Update email only if it's not already taken
+    # if "email" in data:  # Update email only if it's not already taken
+    #     existing_restaurant = Restaurant.query.filter_by(email=data["email"]).first()
+    #     if existing_restaurant and existing_restaurant.id != restaurant_id:
+    #         return jsonify({"error": "Email already registered"}), 409
+    #     restaurant.email = data["email"]  # Update email only if it's not already taken
 
     # Don't allow email updates through this endpoint for security
 

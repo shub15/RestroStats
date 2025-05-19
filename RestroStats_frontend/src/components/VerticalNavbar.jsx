@@ -5,6 +5,8 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from './ThemeProvider.jsx';
 import axios from 'axios';
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function VerticalNavbar() {
     const { darkTheme, toggleTheme } = useTheme();
     const [restaurantName, setRestaurantName] = useState('Restaurant');
@@ -19,7 +21,7 @@ export default function VerticalNavbar() {
             const token = localStorage.getItem('restaurantToken');
             if (!token) return;
             try {
-                const response = await axios.get('http://localhost:5000/restaurant/profile', {
+                const response = await axios.get(`${baseURL}/restaurant/profile`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 setRestaurantName(response.data.name || 'My Restaurant');

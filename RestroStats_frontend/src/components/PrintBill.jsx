@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import "../styles/print-bill.css";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function PrintBill() {
   const [bill, setBill] = useState(null);
   const [restaurant, setRestaurant] = useState(null);
@@ -59,7 +61,7 @@ export default function PrintBill() {
           throw new Error("Authentication required");
         }
         
-        const response = await fetch("http://localhost:5000/restaurant/profile", {
+        const response = await fetch(`${baseURL}/restaurant/profile`, {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`

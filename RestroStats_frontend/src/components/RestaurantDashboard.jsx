@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function RestaurantDashboard() {
   const [restaurant, setRestaurant] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ export default function RestaurantDashboard() {
 
         console.log("Using token:", token); // Debug log
 
-        const response = await fetch("http://localhost:5000/restaurant/profile", {
+        const response = await fetch(`${baseURL}/restaurant/profile`, {
           method: "GET",
           headers: {
             "Authorization": `Bearer ${token}`,

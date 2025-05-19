@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useTheme } from './ThemeProvider.jsx';
 
+const baseURL = import.meta.env.VITE_BASE_URL;
+
 export default function AccountInfo() {
   const [formData, setFormData] = useState({
     id: '',
@@ -9,7 +11,7 @@ export default function AccountInfo() {
     email: '',
     city: '',
     state: '',
-    cusine_type: '',
+    cuisine_type: '',
     phone: ''
   });
 
@@ -23,7 +25,7 @@ export default function AccountInfo() {
       if (!token) return;
 
       try {
-        const res = await axios.get('http://localhost:5000/restaurant/profile', {
+        const res = await axios.get(`${baseURL}/restaurant/profile`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setFormData(res.data);
@@ -47,7 +49,7 @@ export default function AccountInfo() {
     if (!token) return;
 
     try {
-      await axios.put('http://localhost:5000/restaurant/profile', formData, {
+      await axios.put(`${baseURL}/restaurant/profile`, formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage('Account info updated successfully!');
@@ -164,7 +166,7 @@ export default function AccountInfo() {
               { label: 'Restaurant Name', name: 'name', type: 'text', icon: 'storefront' },
               { label: 'Email Address', name: 'email', type: 'email', icon: 'mail' },
               { label: 'Phone Number', name: 'phone', type: 'tel', icon: 'call' },
-              { label: 'Cuisine Type', name: 'cusine_type', type: 'text', icon: 'restaurant' },
+              { label: 'Cuisine Type', name: 'cuisine_type', type: 'text', icon: 'restaurant' },
               { label: 'City', name: 'city', type: 'text', icon: 'location_city' },
               { label: 'State', name: 'state', type: 'text', icon: 'map' },
             ].map(field => (
